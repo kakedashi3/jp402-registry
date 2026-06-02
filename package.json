@@ -1,0 +1,17 @@
+{
+  "name": "jp402-registry",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "JPYC × x402 の公開標準 + opt-in 登録台帳(エンジン非依存)",
+  "license": "MIT",
+  "author": "kakedashi3",
+  "scripts": {
+    "validate:self": "node validate.mjs --self",
+    "validate:registry": "node validate.mjs --registry"
+  },
+  "dependencies": {
+    "ajv": "^8.20.0",
+    "ajv-formats": "^3.0.1"
+  }
+}

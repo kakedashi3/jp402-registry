@@ -1,0 +1,15 @@
+{
+  "_meta": {
+    "spec": "jp402-registry/0.1",
+    "description": "JPYC × x402 の opt-in 登録台帳。売り手は自ドメインに .well-known/x402-catalog.json (x-jp402 準拠) を publish し、ここに catalog_url を1行 PR する。",
+    "rules": {
+      "approval": "承認ゲートは無し。準拠していれば載る。運営は登録可否を決めない。",
+      "denylist_only": "弾くのは既知の悪性(denylist)のみ。allowlist(中央集権)はしない。",
+      "verified": "registered/verified は scan エンジンが付与する。verified は T番号を国税庁 適格請求書 Web-API で実在検証した結果であり、自己申告ではない。",
+      "truth_source": "各エントリの中身は catalog_url 先(売り手のドメイン)が真実。ここには URL だけを置く。"
+    },
+    "howto": "README.md 参照",
+    "updated": "2026-06-02"
+  },
+  "entries": []
+}

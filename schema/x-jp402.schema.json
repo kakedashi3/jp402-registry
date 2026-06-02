@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/kakedashi3/jp402-registry/main/schema/x-jp402.schema.json",
+  "title": "jp402 catalog (x402 Bazaar Discovery + x-jp402 extension)",
+  "description": "JPYC/Polygon の x402 サービスを agent から発見可能にする準拠カタログ。標準部は x402 Bazaar Discovery Extension に準拠し、JP 固有項目は x-jp402 区画に隔離する(汎用クローラは標準部だけ読み、JP 対応クローラだけが x-jp402 まで読む)。売り手はこの形式で自ドメインに .well-known/x402-catalog.json を publish する。registered / verified はこのカタログには含めない(scan エンジンが付与する。自己申告ではない)。",
+  "type": "object",
+  "required": ["catalog", "services"],
+  "properties": {
+    "catalog": {
+      "type": "object",
+      "required": ["spec", "baseSpec"],
+      "properties": {
+        "spec": { "const": "jp402-catalog/0.1" },
+        "baseSpec": {
+          "const": "x402-bazaar-discovery/2",
+          "description": "標準として読めると宣言(孤立回避に必須)"
+        },
+        "publisher": { "type": "string" },
+        "updated": { "type": "string", "format": "date-time" }
+      }
+    },
+    "services": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/service" }
+    }
+  },
+  "$defs": {
+    "service": {
+      "type": "object",
+      "required": ["resource", "accepts"],
+      "properties": {
+        "resource": { "type": "string", "format": "uri", "description": "402 を返す API の URL" },
+        "x402Version": { "type": "integer" },
+        "accepts": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/accept" },
+          "description": "標準部。JPYC 建ては asset=JPYC contract + network=eip155:137 を入れるだけでこの時点で汎用発見可能"
+        },
+        "info": { "type": "object", "description": "input / output の説明(標準部)" },
+        "schema": { "type": "object", "description": "JSON Schema(標準部)" },
+        "x-jp402": { "$ref": "#/$defs/xjp402" }
+      }
+    },
+    "accept": {
+      "type": "object",
+      "required": ["scheme", "network", "asset", "payTo"],
+      "properties": {
+        "scheme": { "type": "string", "examples": ["exact"] },
+        "network": { "type": "string", "examples": ["eip155:137"] },
+        "asset": { "type": "string", "description": "トークンの contract address(JPYC 等)" },
+        "payTo": { "type": "string", "pattern": "^0x[a-fA-F0-9]{40}$", "description": "受取アドレス(on-chain の真実。なりすまし不可)" },
+        "maxAmountRequired": { "type": "string", "description": "最大支払額(最小単位の文字列)" }
+      }
+    },
+    "xjp402": {
+      "type": "object",
+      "description": "JP 拡張(隔離区画)。x402 財団の公式地域拡張機構が出たら差し替え可能な粒度で隔離。",
+      "properties": {
+        "currency": { "type": "string", "examples": ["JPYC"] },
+        "invoice": {
+          "type": "object",
+          "properties": {
+            "qualifiedIssuer": { "type": "boolean", "description": "適格請求書発行事業者か(自己申告。scan が NTA で裏取り)" },
+            "registrationNumber": { "type": "string", "pattern": "^T[0-9]{13}$", "description": "適格請求書発行事業者登録番号(T+13桁)" },
+            "smallAmountException": { "type": "boolean" }
+          }
+        },
+        "compliance": {
+          "type": "object",
+          "properties": {
+            "denchoho": { "type": "boolean" },
+            "accountingIntegration": { "type": "array", "items": { "type": "string" }, "examples": [["freee", "moneyforward"]] }
+          }
+        },
+        "settlement": {
+          "type": "object",
+          "properties": {
+            "facilitator": { "type": "string" },
+            "eip": { "type": "array", "items": { "type": "string" }, "examples": [["EIP-3009", "EIP-2612"]] }
+          }
+        }
+      }
+    }
+  }
+}
