@@ -69,14 +69,6 @@
   .card h3{margin:0 0 6px;font-size:1.06rem;}
   .card p{margin:0;color:var(--muted);font-size:.93rem;}
 
-  /* flow strip */
-  .flow{background:var(--ink);color:#e8e8f0;border-radius:18px;padding:28px;margin-top:8px;}
-  .flow .steps{display:flex;flex-wrap:wrap;gap:14px;align-items:stretch;}
-  .flow .s{flex:1;min-width:150px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);
-    border-radius:12px;padding:14px;}
-  .flow .s .num{color:#ffe27a;font-weight:800;font-size:.8rem;}
-  .flow code{background:rgba(255,255,255,.12);padding:2px 6px;border-radius:5px;font-size:.82em;}
-
   /* who */
   .pills{display:flex;flex-wrap:wrap;gap:10px;}
   .pill{background:#fff;border:1px solid var(--line);border-radius:999px;padding:9px 16px;font-size:.92rem;}
@@ -131,12 +123,7 @@
   <!-- WHY / HOW -->
   <section id="how" class="wrap">
     <p class="kicker">なぜ今</p>
-    <h2>「広告を見てもらう」から「エージェントに払ってもらう」へ</h2>
-    <p class="sub">
-      AI が人の代わりに探して使い、買う時代。API 提供者の収益化は
-      「無料公開＋広告／月額」から「<b>呼ばれた分だけ、その場で課金</b>」へ動きます。
-      それを円建て・国内法準拠で実現する組み合わせが <b>JPYC × x402</b> です。
-    </p>
+    <h2>呼ばれた分だけ、その場で課金。<br>円建てで。</h2>
     <div class="grid">
       <div class="card">
         <div class="ic">🤖</div>
@@ -151,16 +138,7 @@
       <div class="card">
         <div class="ic">⚡</div>
         <h3>数行・ガスレス</h3>
-        <p>EIP-3009 で買い手はガス代不要。既存 API に 402 応答を足すだけ。P2P 直接着金で資金を預からない設計。</p>
-      </div>
-    </div>
-
-    <div class="flow">
-      <div class="steps">
-        <div class="s"><div class="num">01</div>API が <code>402</code> を返す<br>（金額・受取先を提示）</div>
-        <div class="s"><div class="num">02</div>エージェントが JPYC で署名<br>（<code>EIP-3009</code>）</div>
-        <div class="s"><div class="num">03</div>facilitator が検証・確定<br>（Polygon 着金）</div>
-        <div class="s"><div class="num">04</div>API がレスポンス返却<br>＝呼ばれた分だけ収益</div>
+        <p>既存 API に 402 応答を足すだけ。EIP-3009 で買い手はガス代不要、P2P 直接着金。</p>
       </div>
     </div>
   </section>
@@ -212,9 +190,8 @@
   <!-- 既に売っている人向け -->
   <section class="wrap">
     <div class="honest">
-      <b>正直に言うと：</b>これはまだ「作っている最中」の需要調査です。自律的に JPYC で買う AI エージェントもこれから。
-      ただ配線（決済・発見・経理）は動いています。<b>すでに JPYC × x402 で売っている方</b>は、AI に見つけてもらう公開レジストリ
-      <a href="./index.html">jp402-registry に登録</a>できます（無料・PR 1行）。
+      <b>正直に：</b>まだ作っている最中の需要調査です。すでに JPYC × x402 で売っている方は
+      <a href="./index.html">公開レジストリに登録</a>（無料）もどうぞ。
     </div>
   </section>
 
