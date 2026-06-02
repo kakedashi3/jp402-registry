@@ -60,7 +60,23 @@
   h2{font-size:clamp(1.5rem,3.6vw,2.1rem);line-height:1.35;margin:0 0 18px;letter-spacing:-.01em;}
   .sub{color:var(--muted);margin:0 0 40px;max-width:600px;}
   .grid{display:grid;gap:24px;grid-template-columns:repeat(3,1fr);}
-  @media(max-width:760px){.grid{grid-template-columns:1fr;}}
+  @media(max-width:760px){
+    .grid{grid-template-columns:1fr;}
+    .nav a{margin-left:14px;font-size:.86rem;}
+    .stats{gap:22px 28px;}
+    .cta-row .btn{flex:1;justify-content:center;text-align:center;}
+  }
+  @media(max-width:430px){
+    .wrap{padding:0 18px;}
+    .nav{flex-wrap:wrap;gap:6px;}
+    .nav .logo{font-size:1rem;}
+    .nav a{margin-left:0;margin-right:14px;}
+    h1{font-size:1.8rem;line-height:1.32;}
+    .eyebrow{margin-top:36px;}
+    .cta-row{flex-direction:column;}
+    .cta-row .btn{width:100%;}
+    .stat{flex:1 0 42%;}
+  }
   .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:28px;
     transition:.18s;}
   .card:hover{transform:translateY(-3px);box-shadow:0 14px 34px rgba(15,16,33,.08);border-color:#d9d9ec;}
