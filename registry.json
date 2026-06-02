@@ -6,7 +6,7 @@
       "approval": "承認ゲートは無し。準拠していれば載る。運営は登録可否を決めない。",
       "ci_check": "PR の新規 entry は CI が自動検査する: ① x-jp402 schema 準拠 ② 各 resource が 402 を返す(生きた x402 か)。両方 OK で人の承認なしマージ可。客観疎通チェックであり承認ではない。",
       "denylist_only": "弾くのは既知の悪性(denylist)のみ。allowlist(中央集権)はしない。",
-      "verified": "registered/verified は scan エンジンが付与する。verified は T番号を国税庁 適格請求書 Web-API で実在検証した結果であり、自己申告ではない。",
+      "verified": "registered/verified は scan エンジンが付与する。verified は T番号を国税庁 適格請求書 Web-API で実在検証した結果であり、自己申告ではない。【構築中】国税庁 Web-API は未取得(申請前)のため verified は当面未稼働。registered + 形式検証 + 402 生存チェックまでが有効。",
       "truth_source": "各エントリの中身は catalog_url 先(売り手のドメイン)が真実。ここには URL だけを置く。"
     },
     "howto": "README.md 参照",

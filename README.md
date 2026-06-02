@@ -150,6 +150,8 @@ node check-pr.mjs https://YOUR_DOMAIN/.well-known/x402-catalog.json
 
 これで、JPYC で支払う AI エージェントの発見対象になります。
 
+> 📝 **メモ（構築中）**: 上記 2 の **国税庁 適格請求書 Web-API は未取得（申請前）**です。現時点では `verified`（T番号の実在裏取り）は**未稼働**で、scan エンジン側で構築中。当面は **`registered`（登録済）＋ 形式検証 ＋ 402 生存チェック** までが有効で、`verified` は API 取得後に有効化します。
+
 ---
 
 ## エージェント開発者（買い手）向け
