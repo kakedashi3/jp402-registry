@@ -76,17 +76,21 @@
     <label class="req">サービス名 (publisher)</label>
     <input id="name" placeholder="○○コーヒー" />
     <label class="req">402 を返す API の URL (resource)</label>
-    <input id="resource" placeholder="https://shop.example.jp/api/buy" />
+    <input id="resource" placeholder="https://shop.example.jp/api/buy"
+      type="url" inputmode="url" autocapitalize="off" autocorrect="off" spellcheck="false" />
     <label class="req">受取ウォレット (payTo, 0x…40桁)</label>
-    <input id="payTo" placeholder="0x…" />
+    <input id="payTo" placeholder="0x…"
+      inputmode="text" autocapitalize="off" autocorrect="off" spellcheck="false" />
     <label>価格 (JPYC, 整数)</label>
-    <input id="price" type="number" min="0" value="1500" />
+    <input id="price" type="number" min="0" value="1500" inputmode="numeric" />
     <label>ネットワーク</label>
-    <input id="network" value="eip155:137" />
+    <input id="network" value="eip155:137" autocapitalize="off" autocorrect="off" spellcheck="false" />
     <label>JPYC コントラクト (asset)</label>
-    <input id="asset" value="0x431D5dfF03120AFA4bDf332c61A6e1766eF37BDB" />
+    <input id="asset" value="0x431D5dfF03120AFA4bDf332c61A6e1766eF37BDB"
+      autocapitalize="off" autocorrect="off" spellcheck="false" />
     <label>適格請求書登録番号 (T番号, 任意・T+13桁)</label>
-    <input id="tnum" placeholder="T1234567890123" />
+    <input id="tnum" placeholder="T1234567890123"
+      autocapitalize="characters" autocorrect="off" spellcheck="false" />
     <div class="err" id="err"></div>
   </div>
 
