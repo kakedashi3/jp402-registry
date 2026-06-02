@@ -36,6 +36,9 @@
   input { width:100%; padding:11px 12px; border:1px solid var(--line); border-radius:9px;
     font-size:16px; /* iOS のフォーカス時自動ズーム防止(16px 未満でズーム) */ background:#fff; color:var(--fg); transition:.15s; }
   input:focus { outline:none; border-color:var(--accent); box-shadow:0 0 0 3px rgba(108,92,231,.15); }
+  input[readonly] { background:#eef0f4; color:var(--muted); cursor:not-allowed; }
+  input[readonly]:focus { border-color:var(--line); box-shadow:none; }
+  .fixed-note { font-weight:400; color:var(--muted); font-size:.8rem; }
   .req::after { content:" *"; color:#d33; }
   pre { background:var(--ink); color:#e8e8f0; border-radius:10px; padding:14px; overflow:auto;
     font-size:.8rem; line-height:1.6; white-space:pre-wrap; word-break:break-all; }
@@ -85,8 +88,8 @@
     <input id="price" type="number" min="0" value="1500" inputmode="numeric" />
     <label>ネットワーク</label>
     <input id="network" value="eip155:137" autocapitalize="off" autocorrect="off" spellcheck="false" />
-    <label>JPYC コントラクト (asset)</label>
-    <input id="asset" value="0x431D5dfF03120AFA4bDf332c61A6e1766eF37BDB"
+    <label>JPYC コントラクト (asset) <span class="fixed-note">— 固定（JPYC / Polygon）</span></label>
+    <input id="asset" value="0xe7c3d8c9a439fede00d2600032d5db0be71c3c29" readonly
       autocapitalize="off" autocorrect="off" spellcheck="false" />
     <label>適格請求書登録番号 (T番号, 任意・T+13桁)</label>
     <input id="tnum" placeholder="T1234567890123"

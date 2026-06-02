@@ -56,7 +56,7 @@
         {
           "scheme": "exact",
           "network": "eip155:137",
-          "asset": "0x431D5dfF03120AFA4bDf332c61A6e1766eF37BDB",
+          "asset": "0xe7c3d8c9a439fede00d2600032d5db0be71c3c29",
           "payTo": "0xYOUR_WALLET_ADDRESS",
           "maxAmountRequired": "1500"
         }
@@ -79,7 +79,7 @@
 |---|---|
 | `publisher` | あなたの屋号・サービス名 |
 | `resource` | 402 を返す API の URL |
-| `asset` | 支払いトークンの contract（JPYC on Polygon の例は上の通り） |
+| `asset` | 支払いトークンの contract。**JPYC on Polygon = `0xe7c3d8c9a439fede00d2600032d5db0be71c3c29` で固定** |
 | `network` | `eip155:137` = Polygon |
 | `payTo` | 受取ウォレットアドレス（`0x...`） |
 | `maxAmountRequired` | 価格（最小単位の文字列） |
