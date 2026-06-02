@@ -114,8 +114,7 @@
   <div class="card">
     <p><span class="step">③ PR</span> — 下の1行を <code>registry.json</code> の <code>entries</code> に追加して PR。</p>
     <pre id="entry">(入力すると生成)</pre>
-    <button onclick="copy('entry')">📋 entry をコピー</button>
-    <a class="btn ghost" id="prlink" href="#" target="_blank" rel="noopener" onclick="copy('entry')">entry をコピーして GitHub を開く</a>
+    <a class="btn" id="prlink" href="#" target="_blank" rel="noopener" onclick="copy('entry')">📋 entry をコピーして GitHub を開く</a>
     <ol class="howpr">
       <li>↑でコピー → 開いた GitHub の editor で <code>"entries": []</code> の <b>角カッコの中</b>にカーソルを置いて貼り付け（→ <code>"entries": [ &lt;ここ&gt; ]</code>）</li>
       <li><b>中身が変わって初めて「Commit changes」が押せます</b>（未編集だとグレーアウト）</li>
