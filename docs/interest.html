@@ -86,20 +86,27 @@
   .card p{margin:0;color:var(--muted);font-size:.93rem;line-height:1.8;}
 
   /* who */
-  .pills{display:flex;flex-wrap:wrap;gap:14px;}
-  .pill{background:#fff;border:1px solid var(--line);border-radius:999px;padding:12px 20px;font-size:.92rem;}
+  .checks{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  @media(max-width:560px){.checks{grid-template-columns:1fr;}}
+  .check{display:flex;align-items:center;gap:12px;background:#fff;border:1px solid var(--line);
+    border-radius:12px;padding:15px 18px;font-size:.95rem;transition:.15s;}
+  .check:hover{border-color:#d9d9ec;box-shadow:0 6px 18px rgba(15,16,33,.06);}
+  .check .e{font-size:1.2rem;line-height:1;flex:none;}
 
   /* form */
   .formcard{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:8px 8px 4px;
     box-shadow:0 18px 50px rgba(15,16,33,.07);}
   .formhead{padding:20px 18px 4px;}
-  .fallback{font-size:.86rem;color:var(--muted);padding:0 18px 16px;}
+  .fallback{font-size:.9rem;color:var(--muted);text-align:center;padding:22px 18px;line-height:1.8;}
 
   .honest{background:#fff7ec;border:1px solid #f3e2c2;border-radius:14px;padding:16px 18px;
     color:#6b4e1f;font-size:.92rem;}
 
-  footer{border-top:1px solid var(--line);padding:30px 0 60px;color:var(--muted);font-size:.84rem;}
-  footer a{color:var(--muted);}
+  footer{border-top:1px solid var(--line);padding:36px 0 64px;}
+  .footlinks{display:flex;flex-wrap:wrap;gap:10px 22px;margin:0 0 18px;}
+  .footlinks a{color:var(--accent);text-decoration:none;font-weight:600;font-size:.92rem;}
+  .footlinks a:hover{text-decoration:underline;}
+  .disclaimer{color:var(--muted);font-size:.82rem;line-height:1.7;margin:0;}
 </style>
 </head>
 <body>
@@ -164,13 +171,13 @@
     <p class="kicker">こんな人に聞きたい</p>
     <h2>あなたは「JPYC で収益化」したい側ですか？</h2>
     <p class="sub">どれか一つでも当てはまる人の声を集めています。実装の有無・規模は問いません。</p>
-    <div class="pills">
-      <span class="pill">🔌 API / SaaS を提供している</span>
-      <span class="pill">🧑‍💻 個人で API・ツールを作っている</span>
-      <span class="pill">📰 記事・データを有料配信したい</span>
-      <span class="pill">🛒 JPYC で物・サービスを売っている</span>
-      <span class="pill">🤝 AI エージェントを作っている（買い手側）</span>
-      <span class="pill">💴 暗号資産でなく「円」で受け取りたい</span>
+    <div class="checks">
+      <div class="check"><span class="e">🔌</span>API / SaaS を提供している</div>
+      <div class="check"><span class="e">🧑‍💻</span>個人で API・ツールを作っている</div>
+      <div class="check"><span class="e">📰</span>記事・データを有料配信したい</div>
+      <div class="check"><span class="e">🛒</span>JPYC で物・サービスを売っている</div>
+      <div class="check"><span class="e">🤝</span>AI エージェントを作っている（買い手側）</div>
+      <div class="check"><span class="e">💴</span>暗号資産でなく「円」で受け取りたい</div>
     </div>
   </section>
 
@@ -212,14 +219,14 @@
   </section>
 
   <footer class="wrap">
-    <p>
+    <nav class="footlinks">
+      <a href="https://github.com/kakedashi3/jp402-registry" target="_blank" rel="noopener">GitHub (MIT)</a>
+      <a href="./index.html">レジストリに登録</a>
+      <a href="https://github.com/kakedashi3/jp402-registry/blob/main/CONNECT.md" target="_blank" rel="noopener">買い手エージェント接続</a>
+    </nav>
+    <p class="disclaimer">
       ⚠️ 有志による<b>非公式</b>のコミュニティ・プロジェクトです。JPYC 株式会社とは関係ありません（JPYC は同社の登録商標）。
       "jp402" は x402（HTTP-native 決済プロトコル）の JPYC 向け準拠拡張を指す呼称です。
-    </p>
-    <p>
-      <a href="https://github.com/kakedashi3/jp402-registry" target="_blank" rel="noopener">GitHub (MIT)</a> ·
-      <a href="./index.html">レジストリに登録</a> ·
-      <a href="https://github.com/kakedashi3/jp402-registry/blob/main/CONNECT.md" target="_blank" rel="noopener">買い手エージェント接続</a>
     </p>
   </footer>
 </main>
