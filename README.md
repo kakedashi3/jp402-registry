@@ -6,6 +6,11 @@
 
 > ⚠️ 有志による**非公式**なコミュニティ・プロジェクトです。JPYC 株式会社とは関係ありません(JPYC は同社の登録商標)。"jp402" は決済プロトコル x402 の日本(JPYC)向け準拠拡張を指す呼称です。
 
+## 🔗 リンク
+
+- 🚀 **JPYC × x402 で API 収益化に興味がある方** → <https://kakedashi3.github.io/jp402-registry/interest.html>
+- 📝 **売り手の登録ページ** → <https://kakedashi3.github.io/jp402-registry/>
+
 ---
 
 ## これは誰のため？
