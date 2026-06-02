@@ -30,7 +30,7 @@
       radial-gradient(600px 300px at 15% 110%,rgba(255,255,255,.18),transparent 60%),
       linear-gradient(180deg,transparent 60%,rgba(15,16,33,.12));
     pointer-events:none;}
-  .hero .wrap{position:relative;z-index:1;padding:18px 20px 64px;}
+  .hero .wrap{position:relative;z-index:1;padding:18px 20px clamp(72px,11vw,112px);}
   .nav{display:flex;align-items:center;justify-content:space-between;padding:18px 0;}
   .logo{font-weight:800;letter-spacing:.02em;font-size:1.05rem;}
   .logo .dot{color:#ffe27a;}
@@ -38,40 +38,40 @@
   .nav a:hover{opacity:1;text-decoration:underline;}
   .eyebrow{display:inline-block;font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;
     background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.28);
-    padding:5px 12px;border-radius:999px;margin:36px 0 18px;}
-  h1{font-size:clamp(1.9rem,5.2vw,3.2rem);line-height:1.2;margin:0 0 18px;font-weight:850;
+    padding:5px 12px;border-radius:999px;margin:48px 0 24px;}
+  h1{font-size:clamp(1.9rem,5.2vw,3.2rem);line-height:1.28;margin:0 0 26px;font-weight:850;
     letter-spacing:-.01em;}
   h1 .hl{background:linear-gradient(180deg,transparent 62%,rgba(255,226,122,.55) 62%);}
-  .lede{font-size:clamp(1rem,2.4vw,1.18rem);max-width:640px;color:rgba(255,255,255,.94);margin:0 0 28px;}
-  .cta-row{display:flex;flex-wrap:wrap;gap:12px;}
+  .lede{font-size:clamp(1rem,2.4vw,1.18rem);line-height:1.85;max-width:620px;color:rgba(255,255,255,.94);margin:0 0 36px;}
+  .cta-row{display:flex;flex-wrap:wrap;gap:14px;}
   .btn{display:inline-flex;align-items:center;gap:8px;border:0;border-radius:10px;
     padding:13px 22px;font-size:1rem;font-weight:700;cursor:pointer;text-decoration:none;transition:.15s;}
   .btn.primary{background:#fff;color:var(--accent);box-shadow:0 8px 24px rgba(15,16,33,.18);}
   .btn.primary:hover{transform:translateY(-1px);box-shadow:0 12px 30px rgba(15,16,33,.24);}
   .btn.ghost{background:rgba(255,255,255,.1);color:#fff;border:1px solid rgba(255,255,255,.45);}
   .btn.ghost:hover{background:rgba(255,255,255,.18);}
-  .stats{display:flex;flex-wrap:wrap;gap:28px;margin-top:40px;}
+  .stats{display:flex;flex-wrap:wrap;gap:40px;margin-top:56px;}
   .stat .n{font-size:1.5rem;font-weight:800;}
-  .stat .l{font-size:.82rem;opacity:.85;}
+  .stat .l{font-size:.82rem;opacity:.85;margin-top:2px;}
 
   /* sections */
-  section{padding:64px 0;}
-  .kicker{color:var(--accent);font-weight:700;font-size:.85rem;letter-spacing:.08em;margin:0 0 6px;}
-  h2{font-size:clamp(1.5rem,3.6vw,2.1rem);margin:0 0 10px;letter-spacing:-.01em;}
-  .sub{color:var(--muted);margin:0 0 28px;max-width:620px;}
-  .grid{display:grid;gap:18px;grid-template-columns:repeat(3,1fr);}
+  section{padding:clamp(60px,9vw,104px) 0;}
+  .kicker{color:var(--accent);font-weight:700;font-size:.85rem;letter-spacing:.08em;margin:0 0 10px;}
+  h2{font-size:clamp(1.5rem,3.6vw,2.1rem);line-height:1.35;margin:0 0 18px;letter-spacing:-.01em;}
+  .sub{color:var(--muted);margin:0 0 40px;max-width:600px;}
+  .grid{display:grid;gap:24px;grid-template-columns:repeat(3,1fr);}
   @media(max-width:760px){.grid{grid-template-columns:1fr;}}
-  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px;
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:28px;
     transition:.18s;}
   .card:hover{transform:translateY(-3px);box-shadow:0 14px 34px rgba(15,16,33,.08);border-color:#d9d9ec;}
   .card .ic{width:42px;height:42px;border-radius:11px;display:grid;place-items:center;font-size:1.2rem;
-    background:linear-gradient(135deg,var(--accent2),var(--accent));color:#fff;margin-bottom:12px;}
-  .card h3{margin:0 0 6px;font-size:1.06rem;}
-  .card p{margin:0;color:var(--muted);font-size:.93rem;}
+    background:linear-gradient(135deg,var(--accent2),var(--accent));color:#fff;margin-bottom:16px;}
+  .card h3{margin:0 0 10px;font-size:1.06rem;}
+  .card p{margin:0;color:var(--muted);font-size:.93rem;line-height:1.8;}
 
   /* who */
-  .pills{display:flex;flex-wrap:wrap;gap:10px;}
-  .pill{background:#fff;border:1px solid var(--line);border-radius:999px;padding:9px 16px;font-size:.92rem;}
+  .pills{display:flex;flex-wrap:wrap;gap:14px;}
+  .pill{background:#fff;border:1px solid var(--line);border-radius:999px;padding:12px 20px;font-size:.92rem;}
 
   /* form */
   .formcard{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:8px 8px 4px;
