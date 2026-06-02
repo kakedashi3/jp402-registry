@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>jp402-registry — 登録</title>
+<style>
+  /* 和文タイポは外部 awesome-design-md-jp 準拠: 和文先行フォントスタック / 行間1.8 / 字間 / line-break:strict / 見出し palt / 純黒回避 */
+  :root { --bg:#f4f4f6; --fg:#1a1a2e; --muted:#5a5a72; --line:#e4e4ec; --card:#fff;
+    --accent:#6c5ce7; --accent2:#8b7bff; --ink:#0f1021; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--fg);
+    font-family:system-ui,-apple-system,"Hiragino Kaku Gothic ProN","Noto Sans JP",sans-serif;
+    line-height:1.8; letter-spacing:.01em; line-break:strict; overflow-wrap:anywhere;
+    -webkit-font-smoothing:antialiased; }
+  a { color:var(--accent); }
+
+  /* branded header (interest.html とブランド統一) */
+  .hero { color:#fff; background:radial-gradient(900px 360px at 75% -20%,#8b7bff,#6c5ce7 45%,#4b3fb0 100%); }
+  .hero .in { max-width:760px; margin:0 auto; padding:16px 16px 32px; }
+  .hnav { display:flex; align-items:center; justify-content:space-between; padding:6px 0 18px; }
+  .logo { font-weight:800; letter-spacing:.02em; font-size:1.05rem; }
+  .logo .dot { color:#ffe27a; }
+  .hnav a { color:#fff; opacity:.92; text-decoration:none; font-size:.85rem; }
+  .hnav a:hover { opacity:1; text-decoration:underline; }
+  .hero h1 { font-size:1.6rem; margin:0 0 8px; font-weight:800;
+    font-feature-settings:"palt" 1; letter-spacing:.01em; line-height:1.4; }
+  .hero .sub { color:rgba(255,255,255,.92); margin:0; font-size:.95rem; letter-spacing:.02em; }
+
+  main { max-width:760px; margin:0 auto; padding:22px 16px 80px; }
+  .note { font-size:.86rem; color:var(--muted); background:var(--card); border:1px solid var(--line);
+    border-radius:10px; padding:12px 14px; margin:0 0 12px; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:20px; margin:18px 0; }
+  .card > p:first-child { margin-top:0; }
+  label { display:block; font-weight:700; font-size:.88rem; letter-spacing:.02em; margin:14px 0 5px; }
+  input, select { width:100%; padding:11px 12px; border:1px solid var(--line); border-radius:9px;
+    font-size:16px; /* iOS のフォーカス時自動ズーム防止(16px 未満でズーム) */ background:#fff; color:var(--fg); transition:.15s; }
+  input:focus, select:focus { outline:none; border-color:var(--accent); box-shadow:0 0 0 3px rgba(108,92,231,.15); }
+  input[readonly] { background:#eef0f4; color:var(--muted); cursor:not-allowed; }
+  input[readonly]:focus { border-color:var(--line); box-shadow:none; }
+  .fixed-note { font-weight:400; color:var(--muted); font-size:.8rem; }
+  .req::after { content:" *"; color:#d33; }
+  pre { background:var(--ink); color:#e8e8f0; border-radius:10px; padding:14px; overflow:auto;
+    font-size:.8rem; line-height:1.6; white-space:pre-wrap; word-break:break-all; }
+  button, .btn { display:inline-flex; align-items:center; justify-content:center; gap:6px; min-height:44px;
+    background:var(--accent); color:#fff; border:0; border-radius:10px; padding:11px 18px;
+    font-size:.92rem; font-weight:700; cursor:pointer; text-decoration:none; transition:.15s; margin-top:8px; }
+  button:hover, .btn:hover { filter:brightness(1.06); }
+  .btn.ghost { background:#fff; color:var(--accent); border:1px solid var(--accent); }
+  .err { color:#d33; font-size:.85rem; min-height:1.2em; margin-top:6px; }
+  ol { padding-left:1.2em; } code { background:#eef0ff; color:#4b3fb0; padding:1px 6px; border-radius:5px; font-size:.85em; }
+  .howpr { font-size:.84rem; color:var(--muted); margin:12px 0 0; padding-left:1.2em; }
+  .howpr li { margin:5px 0; }
+  .step { display:inline-block; font-weight:800; color:var(--accent); font-feature-settings:"palt" 1; }
+  @media (max-width:520px) {
+    .hero .in, main { padding-left:14px; padding-right:14px; }
+    .card { padding:16px; }
+    button, .btn { display:flex; width:100%; }
+    pre { font-size:.76rem; }
+  }
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="in">
+    <div class="hnav">
+      <a class="logo" href="./index.html" style="color:#fff;text-decoration:none">jp402<span class="dot">.</span></a>
+      <a href="./index.html">← jp402 ホーム</a>
+    </div>
+    <h1>jp402-registry に登録</h1>
+    <p class="sub">JPYC × x402 で売っているサービスを、AI エージェントに見つけてもらう。</p>
+  </div>
+</header>
+<main>
+  <p class="note">💡 まだ売っていない／検討中の方は、まず <a href="./interest.html">JPYC × x402 で API 収益化（興味調査）</a> をどうぞ。</p>
+  <p class="note">⚠️ 有志による<b>非公式</b>プロジェクトです。JPYC 株式会社とは関係ありません(JPYC は同社の登録商標)。手数料は無料。
+  登録の実体は GitHub への Pull Request で、このページはその下書きを生成するだけ(バックエンドなし)。</p>
+
+  <div class="card">
+    <p><span class="step">① あなたの値を入力</span> → JSON が下に生成されます。</p>
+    <label class="req">サービス名 (publisher)</label>
+    <input id="name" placeholder="○○コーヒー" />
+    <label class="req">402 を返す API の URL (resource)</label>
+    <input id="resource" placeholder="https://shop.example.jp/api/buy"
+      type="url" inputmode="url" autocapitalize="off" autocorrect="off" spellcheck="false" />
+    <label class="req">受取ウォレット (payTo, 0x…40桁)</label>
+    <input id="payTo" placeholder="0x…"
+      inputmode="text" autocapitalize="off" autocorrect="off" spellcheck="false" />
+    <label>価格 (JPYC, 整数)</label>
+    <input id="price" type="number" min="0" value="1500" inputmode="numeric" />
+    <label>ネットワーク <span class="fixed-note">— 現在は Polygon のみ対応（他チェーンは順次）</span></label>
+    <select id="network">
+      <option value="eip155:137" selected>Polygon</option>
+      <option value="eip155:1" disabled>Ethereum（近日対応）</option>
+      <option value="eip155:43114" disabled>Avalanche（近日対応）</option>
+      <option value="eip155:8217" disabled>Kaia（近日対応）</option>
+    </select>
+    <label>JPYC コントラクト (asset) <span class="fixed-note">— 固定（JPYC / Polygon）</span></label>
+    <input id="asset" value="0xe7c3d8c9a439fede00d2600032d5db0be71c3c29" readonly
+      autocapitalize="off" autocorrect="off" spellcheck="false" />
+    <label>適格請求書登録番号 (T番号, 任意・T+13桁)</label>
+    <input id="tnum" placeholder="T1234567890123"
+      autocapitalize="characters" autocorrect="off" spellcheck="false" />
+    <div class="err" id="err"></div>
+  </div>
+
+  <div class="card">
+    <p><span class="step">② publish</span> — この JSON を、あなたのサイトの
+    <code>/.well-known/x402-catalog.json</code> に置く(Next.js は <code>public/.well-known/</code>)。</p>
+    <pre id="catalog">(入力すると生成)</pre>
+    <button onclick="copy('catalog')">📋 catalog JSON をコピー</button>
+  </div>
+
+  <div class="card">
+    <p><span class="step">③ PR</span> — 下の1行を <code>registry.json</code> の <code>entries</code> に追加して PR。</p>
+    <pre id="entry">(入力すると生成)</pre>
+    <a class="btn" id="prlink" href="#" target="_blank" rel="noopener" onclick="copy('entry')">📋 entry をコピーして GitHub を開く</a>
+    <ol class="howpr">
+      <li>↑でコピー → 開いた GitHub の editor で <code>"entries": []</code> の <b>角カッコの中</b>にカーソルを置いて貼り付け（→ <code>"entries": [ &lt;ここ&gt; ]</code>）</li>
+      <li><b>中身が変わって初めて「Commit changes」が押せます</b>（未編集だとグレーアウト）</li>
+      <li>「Commit changes」→ <b>Create a new branch & PR</b> を選んで提案</li>
+    </ol>
+  </div>
+
+  <div class="card note">
+    <b>このあと自動で起きること</b>
+    <ol>
+      <li>PR の CI が「準拠スキーマか」「<code>resource</code> が <b>402</b> を返すか」を客観チェック(承認ではない)</li>
+      <li>マージ後、scan が信頼シグナルを付与(T番号の実在検証は国税庁 API 取得後・構築中)</li>
+    </ol>
+    手順の詳細は <a href="https://github.com/kakedashi3/jp402-registry#readme" target="_blank" rel="noopener">README</a> /
+    買い手エージェント接続は <a href="https://github.com/kakedashi3/jp402-registry/blob/main/CONNECT.md" target="_blank" rel="noopener">CONNECT.md</a>。
+  </div>
+</main>
+
+<script>
+const $ = id => document.getElementById(id);
+const REPO = "kakedashi3/jp402-registry";
+function copy(id){ navigator.clipboard.writeText($(id).textContent).then(()=>{}, ()=>{}); }
+
+function build(){
+  const name=$("name").value.trim(), resource=$("resource").value.trim(),
+    payTo=$("payTo").value.trim(), price=$("price").value.trim(),
+    network=$("network").value.trim(), asset=$("asset").value.trim(), tnum=$("tnum").value.trim();
+
+  const errs=[];
+  if(!name) errs.push("サービス名");
+  if(!/^https?:\/\//.test(resource)) errs.push("正しい resource URL");
+  if(!/^0x[a-fA-F0-9]{40}$/.test(payTo)) errs.push("正しい payTo(0x+40桁)");
+  if(tnum && !/^T[0-9]{13}$/.test(tnum)) errs.push("T番号は T+13桁");
+  $("err").textContent = errs.length ? "要確認: " + errs.join(" / ") : "";
+
+  // 18 decimals: 整数 JPYC に 0 を18個(BigInt 不要・文字列連結)
+  const maxAmount = /^[0-9]+$/.test(price) ? price + "0".repeat(18) : "";
+
+  const xjp402 = { currency:"JPYC" };
+  if(tnum) xjp402.invoice = { qualifiedIssuer:true, registrationNumber:tnum };
+
+  const catalog = {
+    catalog: { spec:"jp402-catalog/0.1", baseSpec:"x402-bazaar-discovery/2", publisher:name||"YOUR_SHOP" },
+    services: [{
+      resource: resource||"https://YOUR_DOMAIN/api/buy",
+      accepts: [{ scheme:"exact", network:network||"eip155:137",
+        asset:asset, payTo:payTo||"0xYOUR_WALLET", maxAmountRequired:maxAmount||"PRICE" }],
+      "x-jp402": xjp402
+    }]
+  };
+  $("catalog").textContent = JSON.stringify(catalog, null, 2);
+
+  const catalogUrl = resource ? new URL("/.well-known/x402-catalog.json", resource).href
+                              : "https://YOUR_DOMAIN/.well-known/x402-catalog.json";
+  $("entry").textContent = JSON.stringify({ catalog_url: catalogUrl });
+  $("prlink").href = `https://github.com/${REPO}/edit/main/registry.json`;
+}
+document.querySelectorAll("input").forEach(el=>el.addEventListener("input", build));
+document.querySelectorAll("select").forEach(el=>el.addEventListener("change", build));
+build();
+</script>
+</body>
+</html>

@@ -3,178 +3,215 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>jp402-registry — 登録</title>
+<title>jp402 — JPYC × x402 のディスカバリーレイヤー</title>
+<meta name="description" content="AIエージェントが探して買う時代の「発見」層。準拠すれば自動で載る、JPYC × x402 の公開ディスカバリーレイヤー。中央台帳に頼らず、AIに見つけてもらう地図。" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="AIに見つけてもらう。JPYC × x402 のディスカバリーレイヤー。" />
+<meta property="og:description" content="AIエージェントが探して買う時代、売り手の問題は『どう見つけてもらうか』。jp402-registry は準拠すれば自動で載る公開の地図。載る≠信頼を分け、信頼シグナルを透明に可視化する。" />
 <style>
-  /* 和文タイポは外部 awesome-design-md-jp 準拠: 和文先行フォントスタック / 行間1.8 / 字間 / line-break:strict / 見出し palt / 純黒回避 */
-  :root { --bg:#f4f4f6; --fg:#1a1a2e; --muted:#5a5a72; --line:#e4e4ec; --card:#fff;
+  /* 和文タイポは外部 awesome-design-md-jp 準拠: 和文先行フォント / 行間 / 字間 / line-break:strict / 見出し palt / 純黒回避 */
+  :root{ --bg:#f4f4f6; --fg:#1a1a2e; --muted:#5a5a72; --line:#e4e4ec; --card:#fff;
     --accent:#6c5ce7; --accent2:#8b7bff; --ink:#0f1021; }
-  * { box-sizing:border-box; }
-  body { margin:0; background:var(--bg); color:var(--fg);
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;background:var(--bg);color:var(--fg);
     font-family:system-ui,-apple-system,"Hiragino Kaku Gothic ProN","Noto Sans JP",sans-serif;
-    line-height:1.8; letter-spacing:.01em; line-break:strict; overflow-wrap:anywhere;
-    -webkit-font-smoothing:antialiased; }
-  a { color:var(--accent); }
+    line-height:1.8;letter-spacing:.01em;line-break:strict;overflow-wrap:anywhere;-webkit-font-smoothing:antialiased;}
+  a{color:var(--accent);}
+  .wrap{max-width:900px;margin:0 auto;padding:0 20px;}
 
-  /* branded header (interest.html とブランド統一) */
-  .hero { color:#fff; background:radial-gradient(900px 360px at 75% -20%,#8b7bff,#6c5ce7 45%,#4b3fb0 100%); }
-  .hero .in { max-width:760px; margin:0 auto; padding:16px 16px 32px; }
-  .hnav { display:flex; align-items:center; justify-content:space-between; padding:6px 0 18px; }
-  .logo { font-weight:800; letter-spacing:.02em; font-size:1.05rem; }
-  .logo .dot { color:#ffe27a; }
-  .hnav a { color:#fff; opacity:.92; text-decoration:none; font-size:.85rem; }
-  .hnav a:hover { opacity:1; text-decoration:underline; }
-  .hero h1 { font-size:1.6rem; margin:0 0 8px; font-weight:800;
-    font-feature-settings:"palt" 1; letter-spacing:.01em; line-height:1.4; }
-  .hero .sub { color:rgba(255,255,255,.92); margin:0; font-size:.95rem; letter-spacing:.02em; }
+  /* hero */
+  .hero{position:relative;overflow:hidden;color:#fff;
+    background:radial-gradient(1200px 520px at 72% -12%,#8b7bff 0%,#6c5ce7 40%,#4b3fb0 100%);}
+  .hero::after{content:"";position:absolute;inset:0;
+    background:radial-gradient(620px 320px at 12% 115%,rgba(255,255,255,.16),transparent 60%);pointer-events:none;}
+  .hero .wrap{position:relative;z-index:1;padding:18px 20px clamp(72px,11vw,112px);}
+  .nav{display:flex;align-items:center;justify-content:space-between;padding:18px 0;}
+  .logo{font-weight:800;letter-spacing:.02em;font-size:1.05rem;color:#fff;text-decoration:none;}
+  .logo .dot{color:#ffe27a;}
+  .nav a{color:#fff;opacity:.92;text-decoration:none;font-size:.9rem;margin-left:18px;}
+  .nav a:hover{opacity:1;text-decoration:underline;}
+  .eyebrow{display:inline-block;font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;
+    background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.28);
+    padding:5px 12px;border-radius:999px;margin:48px 0 24px;}
+  h1{font-size:clamp(1.9rem,5.2vw,3.2rem);line-height:1.28;margin:0 0 26px;font-weight:850;
+    letter-spacing:.005em;font-feature-settings:"palt" 1;}
+  h1 .hl{background:linear-gradient(180deg,transparent 62%,rgba(255,226,122,.55) 62%);
+    -webkit-box-decoration-break:clone;box-decoration-break:clone;padding:0 .06em;}
+  .lede{font-size:clamp(1rem,2.4vw,1.18rem);line-height:1.9;max-width:640px;color:rgba(255,255,255,.94);margin:0 0 34px;letter-spacing:.02em;}
+  .cta-row{display:flex;flex-wrap:wrap;gap:14px;}
+  .btn{display:inline-flex;align-items:center;gap:8px;border:0;border-radius:10px;
+    padding:13px 22px;font-size:1rem;font-weight:700;cursor:pointer;text-decoration:none;transition:.15s;}
+  .btn.primary{background:#fff;color:var(--accent);box-shadow:0 8px 24px rgba(15,16,33,.18);}
+  .btn.primary:hover{transform:translateY(-1px);box-shadow:0 12px 30px rgba(15,16,33,.24);}
+  .btn.ghost{background:rgba(255,255,255,.1);color:#fff;border:1px solid rgba(255,255,255,.45);}
+  .btn.ghost:hover{background:rgba(255,255,255,.18);}
 
-  main { max-width:760px; margin:0 auto; padding:22px 16px 80px; }
-  .note { font-size:.86rem; color:var(--muted); background:var(--card); border:1px solid var(--line);
-    border-radius:10px; padding:12px 14px; margin:0 0 12px; }
-  .card { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:20px; margin:18px 0; }
-  .card > p:first-child { margin-top:0; }
-  label { display:block; font-weight:700; font-size:.88rem; letter-spacing:.02em; margin:14px 0 5px; }
-  input, select { width:100%; padding:11px 12px; border:1px solid var(--line); border-radius:9px;
-    font-size:16px; /* iOS のフォーカス時自動ズーム防止(16px 未満でズーム) */ background:#fff; color:var(--fg); transition:.15s; }
-  input:focus, select:focus { outline:none; border-color:var(--accent); box-shadow:0 0 0 3px rgba(108,92,231,.15); }
-  input[readonly] { background:#eef0f4; color:var(--muted); cursor:not-allowed; }
-  input[readonly]:focus { border-color:var(--line); box-shadow:none; }
-  .fixed-note { font-weight:400; color:var(--muted); font-size:.8rem; }
-  .req::after { content:" *"; color:#d33; }
-  pre { background:var(--ink); color:#e8e8f0; border-radius:10px; padding:14px; overflow:auto;
-    font-size:.8rem; line-height:1.6; white-space:pre-wrap; word-break:break-all; }
-  button, .btn { display:inline-flex; align-items:center; justify-content:center; gap:6px; min-height:44px;
-    background:var(--accent); color:#fff; border:0; border-radius:10px; padding:11px 18px;
-    font-size:.92rem; font-weight:700; cursor:pointer; text-decoration:none; transition:.15s; margin-top:8px; }
-  button:hover, .btn:hover { filter:brightness(1.06); }
-  .btn.ghost { background:#fff; color:var(--accent); border:1px solid var(--accent); }
-  .err { color:#d33; font-size:.85rem; min-height:1.2em; margin-top:6px; }
-  ol { padding-left:1.2em; } code { background:#eef0ff; color:#4b3fb0; padding:1px 6px; border-radius:5px; font-size:.85em; }
-  .howpr { font-size:.84rem; color:var(--muted); margin:12px 0 0; padding-left:1.2em; }
-  .howpr li { margin:5px 0; }
-  .step { display:inline-block; font-weight:800; color:var(--accent); font-feature-settings:"palt" 1; }
-  @media (max-width:520px) {
-    .hero .in, main { padding-left:14px; padding-right:14px; }
-    .card { padding:16px; }
-    button, .btn { display:flex; width:100%; }
-    pre { font-size:.76rem; }
+  /* sections */
+  section{padding:clamp(60px,9vw,100px) 0;}
+  .kicker{color:var(--accent);font-weight:700;font-size:.85rem;letter-spacing:.08em;margin:0 0 10px;}
+  h2{font-size:clamp(1.5rem,3.6vw,2.05rem);line-height:1.4;margin:0 0 18px;letter-spacing:.005em;font-feature-settings:"palt" 1;}
+  .sub{color:var(--muted);margin:0 0 40px;max-width:620px;letter-spacing:.02em;}
+  .grid{display:grid;gap:22px;grid-template-columns:repeat(3,1fr);}
+  @media(max-width:760px){.grid{grid-template-columns:1fr;}}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:26px;transition:.18s;}
+  .card:hover{transform:translateY(-3px);box-shadow:0 14px 34px rgba(15,16,33,.08);border-color:#d9d9ec;}
+  .card .ic{width:42px;height:42px;border-radius:11px;display:grid;place-items:center;font-size:1.2rem;
+    background:linear-gradient(135deg,var(--accent2),var(--accent));color:#fff;margin-bottom:16px;}
+  .card h3{margin:0 0 10px;font-size:1.08rem;}
+  .card p{margin:0;color:var(--muted);font-size:.93rem;line-height:1.8;}
+
+  /* moat line */
+  .moat{background:var(--ink);color:#e8e8f0;border-radius:18px;padding:30px;margin-top:8px;
+    font-size:1.02rem;line-height:1.9;letter-spacing:.01em;}
+  .moat b{color:#ffe27a;font-weight:700;}
+
+  /* paths (3導線) */
+  .paths{display:grid;gap:20px;grid-template-columns:repeat(3,1fr);}
+  @media(max-width:760px){.paths{grid-template-columns:1fr;}}
+  .path{display:flex;flex-direction:column;background:var(--card);border:1px solid var(--line);
+    border-radius:16px;padding:26px;transition:.18s;}
+  .path:hover{transform:translateY(-3px);box-shadow:0 14px 34px rgba(15,16,33,.08);border-color:#d9d9ec;}
+  .path .tag{font-size:.78rem;font-weight:700;letter-spacing:.06em;color:var(--accent);margin-bottom:10px;}
+  .path h3{margin:0 0 8px;font-size:1.12rem;}
+  .path p{margin:0 0 18px;color:var(--muted);font-size:.92rem;line-height:1.8;flex:1;}
+  .path .go{display:inline-flex;align-items:center;gap:6px;align-self:flex-start;
+    background:var(--accent);color:#fff;border-radius:9px;padding:10px 16px;font-size:.9rem;font-weight:700;text-decoration:none;}
+  .path .go.alt{background:#fff;color:var(--accent);border:1px solid var(--accent);}
+  .path .go:hover{filter:brightness(1.06);}
+
+  .honest{background:#fff7ec;border:1px solid #f3e2c2;border-radius:14px;padding:18px 20px;
+    color:#6b4e1f;font-size:.93rem;line-height:1.85;}
+
+  footer{border-top:1px solid var(--line);padding:36px 0 64px;}
+  .footlinks{display:flex;flex-wrap:wrap;gap:10px 22px;margin:0 0 18px;}
+  .footlinks a{color:var(--accent);text-decoration:none;font-weight:600;font-size:.92rem;}
+  .footlinks a:hover{text-decoration:underline;}
+  .disclaimer{color:var(--muted);font-size:.82rem;line-height:1.7;margin:0;}
+
+  @media(max-width:430px){
+    .wrap{padding:0 18px;}
+    .nav{flex-wrap:wrap;gap:6px;}
+    .nav a{margin-left:0;margin-right:14px;}
+    h1{font-size:1.85rem;}
+    .eyebrow{margin-top:36px;}
+    .cta-row{flex-direction:column;}
+    .cta-row .btn{width:100%;justify-content:center;}
   }
 </style>
 </head>
 <body>
+
 <header class="hero">
-  <div class="in">
-    <div class="hnav">
-      <span class="logo">jp402<span class="dot">.</span></span>
-      <a href="./interest.html">← 興味調査ページ</a>
+  <div class="wrap">
+    <nav class="nav">
+      <a class="logo" href="./index.html">jp402<span class="dot">.</span></a>
+      <div>
+        <a href="#what">仕組み</a>
+        <a href="#paths">使う</a>
+        <a href="https://github.com/kakedashi3/jp402-registry" target="_blank" rel="noopener">GitHub</a>
+      </div>
+    </nav>
+
+    <span class="eyebrow">JPYC × X402 · DISCOVERY LAYER</span>
+    <h1>AIに見つけてもらう。<br><span class="hl">JPYC × x402 のディスカバリーレイヤー。</span></h1>
+    <p class="lede">
+      AIエージェントが探して買う時代、売り手の問題は「広告を見てもらう」ではなく
+      <b>「エージェントに発見・選別してもらう」</b>に変わる。
+      <b>jp402-registry</b> は、準拠すれば自動で載る<b>公開の地図</b>。
+      中央台帳に頼らず、JPYC/Polygon の x402 経済を発見可能にする。
+    </p>
+    <div class="cta-row">
+      <a class="btn primary" href="#paths">使ってみる →</a>
+      <a class="btn ghost" href="https://github.com/kakedashi3/jp402-registry" target="_blank" rel="noopener">GitHub (MIT)</a>
     </div>
-    <h1>jp402-registry に登録</h1>
-    <p class="sub">JPYC × x402 で売っているサービスを、AI エージェントに見つけてもらう。</p>
   </div>
 </header>
+
 <main>
-  <p class="note">💡 まだ売っていない／検討中の方は、まず <a href="./interest.html">JPYC × x402 で API 収益化（興味調査）</a> をどうぞ。</p>
-  <p class="note">⚠️ 有志による<b>非公式</b>プロジェクトです。JPYC 株式会社とは関係ありません(JPYC は同社の登録商標)。手数料は無料。
-  登録の実体は GitHub への Pull Request で、このページはその下書きを生成するだけ(バックエンドなし)。</p>
+  <!-- WHAT / WHY -->
+  <section id="what" class="wrap">
+    <p class="kicker">ディスカバリーレイヤーとは</p>
+    <h2>「載る」と「信頼される」を分けた、公開の発見層</h2>
+    <p class="sub">
+      検索が x402 を Polygon ごと外して空白になった領域を、中央集権の台帳ではなく
+      <b>準拠ベースの自前ループ</b>で埋める。誰の許可も要らず、けれど信頼は可視化する。
+    </p>
+    <div class="grid">
+      <div class="card">
+        <div class="ic">🗺️</div>
+        <h3>載る = permissionless</h3>
+        <p>自ドメインに準拠カタログ（<code>.well-known</code>）を置き、URL を1行 PR すれば自動で載る。運営が登録可否を決めない。</p>
+      </div>
+      <div class="card">
+        <div class="ic">🛡️</div>
+        <h3>信頼 = 別レイヤー</h3>
+        <p>詐欺も載れる。だから弾かず、着金実績・宛先一致・準拠度などの<b>信頼シグナルを透明に可視化</b>。載る≠勝つ。</p>
+      </div>
+      <div class="card">
+        <div class="ic">🔌</div>
+        <h3>標準準拠で孤立しない</h3>
+        <p>x402 Bazaar Discovery に準拠し、JP 固有項目だけ <code>x-jp402</code> 区画に隔離。汎用クローラは標準部だけ読める。</p>
+      </div>
+    </div>
 
-  <div class="card">
-    <p><span class="step">① あなたの値を入力</span> → JSON が下に生成されます。</p>
-    <label class="req">サービス名 (publisher)</label>
-    <input id="name" placeholder="○○コーヒー" />
-    <label class="req">402 を返す API の URL (resource)</label>
-    <input id="resource" placeholder="https://shop.example.jp/api/buy"
-      type="url" inputmode="url" autocapitalize="off" autocorrect="off" spellcheck="false" />
-    <label class="req">受取ウォレット (payTo, 0x…40桁)</label>
-    <input id="payTo" placeholder="0x…"
-      inputmode="text" autocapitalize="off" autocorrect="off" spellcheck="false" />
-    <label>価格 (JPYC, 整数)</label>
-    <input id="price" type="number" min="0" value="1500" inputmode="numeric" />
-    <label>ネットワーク <span class="fixed-note">— 現在は Polygon のみ対応（他チェーンは順次）</span></label>
-    <select id="network">
-      <option value="eip155:137" selected>Polygon</option>
-      <option value="eip155:1" disabled>Ethereum（近日対応）</option>
-      <option value="eip155:43114" disabled>Avalanche（近日対応）</option>
-      <option value="eip155:8217" disabled>Kaia（近日対応）</option>
-    </select>
-    <label>JPYC コントラクト (asset) <span class="fixed-note">— 固定（JPYC / Polygon）</span></label>
-    <input id="asset" value="0xe7c3d8c9a439fede00d2600032d5db0be71c3c29" readonly
-      autocapitalize="off" autocorrect="off" spellcheck="false" />
-    <label>適格請求書登録番号 (T番号, 任意・T+13桁)</label>
-    <input id="tnum" placeholder="T1234567890123"
-      autocapitalize="characters" autocorrect="off" spellcheck="false" />
-    <div class="err" id="err"></div>
-  </div>
+    <div class="moat">
+      コードでできる層は、もう AI が書ける。決済を確定するファシリテーターも、AI に決済させる仕組みも。
+      でも<b>ディスカバリーだけは AI に作れない</b>——その価値は「どの売り手が、載ることに同意し、どれだけ信頼が積まれているか」で、
+      <b>レイヤーと売り手の合意でしか構成できない</b>から。だから今やるのは儲けることではなく、
+      飽和が来る前に<b>信頼と標準の旗を立てておく</b>こと。
+    </div>
+  </section>
 
-  <div class="card">
-    <p><span class="step">② publish</span> — この JSON を、あなたのサイトの
-    <code>/.well-known/x402-catalog.json</code> に置く(Next.js は <code>public/.well-known/</code>)。</p>
-    <pre id="catalog">(入力すると生成)</pre>
-    <button onclick="copy('catalog')">📋 catalog JSON をコピー</button>
-  </div>
+  <!-- PATHS: 3導線 -->
+  <section id="paths" class="wrap">
+    <p class="kicker">使う</p>
+    <h2>あなたはどっち側？</h2>
+    <p class="sub">売り手は載り、買い手エージェントは引く。まだ作っていない人は、興味だけ置いていける。</p>
+    <div class="paths">
+      <div class="path">
+        <div class="tag">🏪 売り手</div>
+        <h3>AIに見つけてもらう</h3>
+        <p>JPYC × x402 で売っているなら、<code>.well-known</code> に置いて URL を1行 PR するだけで登録（無料・手数料なし）。AIエージェントの発見対象になる。</p>
+        <a class="go" href="./register.html">レジストリに登録 →</a>
+      </div>
+      <div class="path">
+        <div class="tag">🤖 買い手エージェント</div>
+        <h3>JPYCで何が買えるか引く</h3>
+        <p>登録リストを引けば「JPYCで買えるサービス（信頼シグナル付き）」を列挙できる。署名・policy は各自のまま、<b>発見だけ乗せる</b>。</p>
+        <a class="go alt" href="https://github.com/kakedashi3/jp402-registry/blob/main/CONNECT.md" target="_blank" rel="noopener">接続ガイド (CONNECT) →</a>
+      </div>
+      <div class="path">
+        <div class="tag">💡 まだ作っていない</div>
+        <h3>JPYCでAPI収益化に興味</h3>
+        <p>「呼び出された分だけ、その場で円建て課金」——その未来に興味があるなら、30秒の需要調査へ。実装の有無は問わない。</p>
+        <a class="go alt" href="./interest.html">興味調査ページ →</a>
+      </div>
+    </div>
+  </section>
 
-  <div class="card">
-    <p><span class="step">③ PR</span> — 下の1行を <code>registry.json</code> の <code>entries</code> に追加して PR。</p>
-    <pre id="entry">(入力すると生成)</pre>
-    <a class="btn" id="prlink" href="#" target="_blank" rel="noopener" onclick="copy('entry')">📋 entry をコピーして GitHub を開く</a>
-    <ol class="howpr">
-      <li>↑でコピー → 開いた GitHub の editor で <code>"entries": []</code> の <b>角カッコの中</b>にカーソルを置いて貼り付け（→ <code>"entries": [ &lt;ここ&gt; ]</code>）</li>
-      <li><b>中身が変わって初めて「Commit changes」が押せます</b>（未編集だとグレーアウト）</li>
-      <li>「Commit changes」→ <b>Create a new branch & PR</b> を選んで提案</li>
-    </ol>
-  </div>
+  <!-- HONEST -->
+  <section class="wrap">
+    <div class="honest">
+      <b>正直に：</b>登録はまだ 0 件、自律的に買う AI エージェントもこれから。これは「市場が来た」ではなく
+      <b>「配線と旗が立った」</b>状態です。x402 のエンドポイントは作るのがタダ＝供給はいずれ爆発し、
+      その時「見つける」はタダのまま「選ばれる」が希少になる。だから飽和の前に、標準の旗を立てています。
+    </div>
+  </section>
 
-  <div class="card note">
-    <b>このあと自動で起きること</b>
-    <ol>
-      <li>PR の CI が「準拠スキーマか」「<code>resource</code> が <b>402</b> を返すか」を客観チェック(承認ではない)</li>
-      <li>マージ後、scan が信頼シグナルを付与(T番号の実在検証は国税庁 API 取得後・構築中)</li>
-    </ol>
-    手順の詳細は <a href="https://github.com/kakedashi3/jp402-registry#readme" target="_blank" rel="noopener">README</a> /
-    買い手エージェント接続は <a href="https://github.com/kakedashi3/jp402-registry/blob/main/CONNECT.md" target="_blank" rel="noopener">CONNECT.md</a>。
-  </div>
+  <footer class="wrap">
+    <nav class="footlinks">
+      <a href="https://github.com/kakedashi3/jp402-registry" target="_blank" rel="noopener">GitHub (MIT)</a>
+      <a href="./register.html">レジストリに登録</a>
+      <a href="https://github.com/kakedashi3/jp402-registry/blob/main/CONNECT.md" target="_blank" rel="noopener">買い手エージェント接続</a>
+      <a href="./interest.html">興味調査</a>
+    </nav>
+    <p class="disclaimer">
+      ⚠️ 有志による<b>非公式</b>のコミュニティ・プロジェクトです。JPYC 株式会社とは関係ありません（JPYC は同社の登録商標）。
+      "jp402" は x402（HTTP-native 決済プロトコル）の JPYC 向け準拠拡張を指す呼称です。
+    </p>
+  </footer>
 </main>
 
-<script>
-const $ = id => document.getElementById(id);
-const REPO = "kakedashi3/jp402-registry";
-function copy(id){ navigator.clipboard.writeText($(id).textContent).then(()=>{}, ()=>{}); }
-
-function build(){
-  const name=$("name").value.trim(), resource=$("resource").value.trim(),
-    payTo=$("payTo").value.trim(), price=$("price").value.trim(),
-    network=$("network").value.trim(), asset=$("asset").value.trim(), tnum=$("tnum").value.trim();
-
-  const errs=[];
-  if(!name) errs.push("サービス名");
-  if(!/^https?:\/\//.test(resource)) errs.push("正しい resource URL");
-  if(!/^0x[a-fA-F0-9]{40}$/.test(payTo)) errs.push("正しい payTo(0x+40桁)");
-  if(tnum && !/^T[0-9]{13}$/.test(tnum)) errs.push("T番号は T+13桁");
-  $("err").textContent = errs.length ? "要確認: " + errs.join(" / ") : "";
-
-  // 18 decimals: 整数 JPYC に 0 を18個(BigInt 不要・文字列連結)
-  const maxAmount = /^[0-9]+$/.test(price) ? price + "0".repeat(18) : "";
-
-  const xjp402 = { currency:"JPYC" };
-  if(tnum) xjp402.invoice = { qualifiedIssuer:true, registrationNumber:tnum };
-
-  const catalog = {
-    catalog: { spec:"jp402-catalog/0.1", baseSpec:"x402-bazaar-discovery/2", publisher:name||"YOUR_SHOP" },
-    services: [{
-      resource: resource||"https://YOUR_DOMAIN/api/buy",
-      accepts: [{ scheme:"exact", network:network||"eip155:137",
-        asset:asset, payTo:payTo||"0xYOUR_WALLET", maxAmountRequired:maxAmount||"PRICE" }],
-      "x-jp402": xjp402
-    }]
-  };
-  $("catalog").textContent = JSON.stringify(catalog, null, 2);
-
-  const catalogUrl = resource ? new URL("/.well-known/x402-catalog.json", resource).href
-                              : "https://YOUR_DOMAIN/.well-known/x402-catalog.json";
-  $("entry").textContent = JSON.stringify({ catalog_url: catalogUrl });
-  $("prlink").href = `https://github.com/${REPO}/edit/main/registry.json`;
-}
-document.querySelectorAll("input").forEach(el=>el.addEventListener("input", build));
-document.querySelectorAll("select").forEach(el=>el.addEventListener("change", build));
-build();
-</script>
 </body>
 </html>
