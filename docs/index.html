@@ -49,6 +49,8 @@
   .btn.ghost { background:#fff; color:var(--accent); border:1px solid var(--accent); }
   .err { color:#d33; font-size:.85rem; min-height:1.2em; margin-top:6px; }
   ol { padding-left:1.2em; } code { background:#eef0ff; color:#4b3fb0; padding:1px 6px; border-radius:5px; font-size:.85em; }
+  .howpr { font-size:.84rem; color:var(--muted); margin:12px 0 0; padding-left:1.2em; }
+  .howpr li { margin:5px 0; }
   .step { display:inline-block; font-weight:800; color:var(--accent); font-feature-settings:"palt" 1; }
   @media (max-width:520px) {
     .hero .in, main { padding-left:14px; padding-right:14px; }
@@ -110,10 +112,15 @@
   </div>
 
   <div class="card">
-    <p><span class="step">③ PR</span> — この1行を <code>registry.json</code> の <code>entries</code> に追加して PR。</p>
+    <p><span class="step">③ PR</span> — 下の1行を <code>registry.json</code> の <code>entries</code> に追加して PR。</p>
     <pre id="entry">(入力すると生成)</pre>
     <button onclick="copy('entry')">📋 entry をコピー</button>
-    <a class="btn ghost" id="prlink" href="#" target="_blank" rel="noopener">GitHub で registry.json を編集 → PR</a>
+    <a class="btn ghost" id="prlink" href="#" target="_blank" rel="noopener" onclick="copy('entry')">entry をコピーして GitHub を開く</a>
+    <ol class="howpr">
+      <li>↑でコピー → 開いた GitHub の editor で <code>"entries": []</code> の <b>角カッコの中</b>にカーソルを置いて貼り付け（→ <code>"entries": [ &lt;ここ&gt; ]</code>）</li>
+      <li><b>中身が変わって初めて「Commit changes」が押せます</b>（未編集だとグレーアウト）</li>
+      <li>「Commit changes」→ <b>Create a new branch & PR</b> を選んで提案</li>
+    </ol>
   </div>
 
   <div class="card note">
