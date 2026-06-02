@@ -16,3 +16,5 @@ jobs:
         run: node validate.mjs --self
       - name: registry shape
         run: node validate.mjs --registry
+      - name: signals shape
+        run: node validate.mjs --signals

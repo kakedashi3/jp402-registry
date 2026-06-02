@@ -1,0 +1,8 @@
+{
+  "_meta": {
+    "spec": "jp402-signals/0.1",
+    "note": "scan エンジン(別管理)が public な on-chain / 公的 API から算出して populate する公開スナップショット。仕様・各軸の算出方法は TRUST.md。合成スコアは持たず生の軸値のみ。手で編集しない。【構築中】現状0件。",
+    "updated": "2026-06-02"
+  },
+  "signals": []
+}

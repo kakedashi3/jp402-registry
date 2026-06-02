@@ -49,6 +49,18 @@ if (arg === '--registry') {
   process.exit(0)
 }
 
+if (arg === '--signals') {
+  const ajv = new Ajv2020({ allErrors: true, strict: false })
+  addFormats(ajv)
+  const schema = JSON.parse(await readFile(new URL('./schema/signals.schema.json', import.meta.url), 'utf8'))
+  const validate = ajv.compile(schema)
+  const doc = await readJson(new URL('./signals.json', import.meta.url).pathname)
+  if (validate(doc)) { ok(`signals.json OK (${doc.signals.length} records)`); process.exit(0) }
+  console.error('✗ signals.json invalid')
+  for (const err of validate.errors) console.error(`  ${err.instancePath || '/'} ${err.message}`)
+  process.exit(1)
+}
+
 // それ以外 = カタログ検証
 const validate = await loadSchema()
 const doc = await readJson(arg)

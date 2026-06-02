@@ -164,6 +164,7 @@ node check-pr.mjs https://YOUR_DOMAIN/.well-known/x402-catalog.json
 
 - **登録は無料？** → はい。手数料はありません。
 - **登録したら上位に出る？** → いいえ。「載る」と「信頼される」は別です。信頼は実績シグナル（[TRUST.md](TRUST.md)）で可視化され、新規は「実績なし」と正直に表示されます。
+- **信頼シグナルは透明？** → はい。**4 軸の算出方法（[TRUST.md](TRUST.md)）も、各サービスの算出値（[signals.json](signals.json)）も公開**します。元データは public な on-chain / 公的 API なので誰でも再現・検証できます。ブラックボックスの合成スコアは作りません（生の軸値を出し、重み付けは利用側 agent に委ねる）。
 - **T番号がない（免税事業者）** → `x-jp402.invoice` を省略して登録できます。`verified` は付きませんが listing は可能です。
 - **やめたい / 消したい** → `registry.json` から自分の行を消す PR を出すか、`.well-known` を下げてください。
 - **GitHub に不慣れ** → まずは Step 1〜2（publish）だけでも、準拠カタログとして価値があります。PR は後からで構いません。
@@ -174,12 +175,13 @@ node check-pr.mjs https://YOUR_DOMAIN/.well-known/x402-catalog.json
 
 | ある | ない（別管理） |
 |---|---|
-| `schema/x-jp402.schema.json` — カタログの形式 | on-chain 実測・信頼スコア計算 |
+| `schema/x-jp402.schema.json` — カタログの形式 | 信頼シグナルの**計算実装**(engine、private) |
 | `registry.json` — 登録台帳（PR 先） | クロール・T番号裏取りの実装 |
-| `TRUST.md` — 信頼シグナル 4 軸の定義 | サービス一覧 API の serve |
-| `validate.mjs` — 検証ツール | |
+| `TRUST.md` — 信頼シグナル 4 軸の**算出方法**(透明) | サービス一覧 API の serve |
+| `signals.json` — 各サービスの**算出値**(engine が populate、透明) | |
+| `validate.mjs` — 検証ツール（catalog / registry / signals） | |
 
-依存の向きは一方向：このリポジトリ（標準・台帳）を、外部の scan エンジンが**読む**だけ。
+依存の向きは一方向：このリポジトリ（標準・台帳・公開値）を、外部の scan エンジンが**読み書き**する。**公開するのは「方法」と「値」、隠すのは engine の実装コードだけ**（値は誰でも再現できるので透明性は損なわれない）。
 
 ## License
 

@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/kakedashi3/jp402-registry/main/schema/signals.schema.json",
+  "title": "jp402 trust signals (per payTo)",
+  "description": "scan エンジンが付与する信頼シグナルの公開フォーマット。値は public な on-chain / 公的 API から算出され第三者が再現可能。合成スコアは持たず生の軸値のみ。仕様は TRUST.md。",
+  "type": "object",
+  "required": ["_meta", "signals"],
+  "properties": {
+    "_meta": {
+      "type": "object",
+      "properties": {
+        "spec": { "const": "jp402-signals/0.1" },
+        "updated": { "type": "string" },
+        "note": { "type": "string" }
+      }
+    },
+    "signals": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/record" }
+    }
+  },
+  "$defs": {
+    "record": {
+      "type": "object",
+      "required": ["payTo", "signals"],
+      "properties": {
+        "payTo": { "type": "string", "pattern": "^0x[a-fA-F0-9]{40}$" },
+        "signals": {
+          "type": "object",
+          "properties": {
+            "paymentTrackRecord": {
+              "type": "object",
+              "properties": {
+                "txCount": { "type": "integer", "minimum": 0 },
+                "uniqueWallets": { "type": "integer", "minimum": 0 },
+                "window": { "type": "string", "examples": ["all", "90d"] }
+              }
+            },
+            "addressConsistency": {
+              "type": "object",
+              "properties": { "consistent": { "type": "boolean" } }
+            },
+            "ecosystemConformance": {
+              "type": "object",
+              "properties": {
+                "schemaValid": { "type": "boolean" },
+                "baseSpecOk": { "type": "boolean" },
+                "tNumberVerified": {
+                  "type": ["boolean", "null"],
+                  "description": "null = 国税庁API未取得による未検証(構築中)。false = 検証して不一致"
+                }
+              }
+            },
+            "discoveryTransparency": { "type": "number", "minimum": 0, "maximum": 1 }
+          }
+        },
+        "lastObserved": { "type": "string" },
+        "denylisted": { "type": "boolean" }
+      }
+    }
+  }
+}
