@@ -41,7 +41,8 @@
     padding:5px 12px;border-radius:999px;margin:48px 0 24px;}
   h1{font-size:clamp(1.9rem,5.2vw,3.2rem);line-height:1.28;margin:0 0 26px;font-weight:850;
     letter-spacing:-.01em;}
-  h1 .hl{background:linear-gradient(180deg,transparent 62%,rgba(255,226,122,.55) 62%);}
+  h1 .hl{background:linear-gradient(180deg,transparent 62%,rgba(255,226,122,.55) 62%);
+    -webkit-box-decoration-break:clone;box-decoration-break:clone;padding:0 .06em;}
   .lede{font-size:clamp(1rem,2.4vw,1.18rem);line-height:1.85;max-width:620px;color:rgba(255,255,255,.94);margin:0 0 36px;}
   .cta-row{display:flex;flex-wrap:wrap;gap:14px;}
   .btn{display:inline-flex;align-items:center;gap:8px;border:0;border-radius:10px;
@@ -75,7 +76,8 @@
     .eyebrow{margin-top:36px;}
     .cta-row{flex-direction:column;}
     .cta-row .btn{width:100%;}
-    .stat{flex:1 0 42%;}
+    .stats{gap:18px;margin-top:44px;}
+    .stat{flex:1 0 100%;}
   }
   .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:28px;
     transition:.18s;}
@@ -123,7 +125,7 @@
     </nav>
 
     <span class="eyebrow">JPYC × x402 · AGENT-NATIVE PAYMENTS</span>
-    <h1>AIエージェントが顧客になる。<br><span class="hl">あなたの API を、JPYC で収益化する。</span></h1>
+    <h1>AIエージェントが顧客になる。<br>あなたの API を、<span class="hl">JPYC で収益化する。</span></h1>
     <p class="lede">
       HTTP だけで動く従量課金。口座もカードもサインアップも要らない。
       AI エージェントが <b>そのまま、円建てで</b> 支払う。
