@@ -33,9 +33,9 @@
   .card { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:20px; margin:18px 0; }
   .card > p:first-child { margin-top:0; }
   label { display:block; font-weight:700; font-size:.88rem; letter-spacing:.02em; margin:14px 0 5px; }
-  input { width:100%; padding:11px 12px; border:1px solid var(--line); border-radius:9px;
+  input, select { width:100%; padding:11px 12px; border:1px solid var(--line); border-radius:9px;
     font-size:16px; /* iOS のフォーカス時自動ズーム防止(16px 未満でズーム) */ background:#fff; color:var(--fg); transition:.15s; }
-  input:focus { outline:none; border-color:var(--accent); box-shadow:0 0 0 3px rgba(108,92,231,.15); }
+  input:focus, select:focus { outline:none; border-color:var(--accent); box-shadow:0 0 0 3px rgba(108,92,231,.15); }
   input[readonly] { background:#eef0f4; color:var(--muted); cursor:not-allowed; }
   input[readonly]:focus { border-color:var(--line); box-shadow:none; }
   .fixed-note { font-weight:400; color:var(--muted); font-size:.8rem; }
@@ -86,8 +86,13 @@
       inputmode="text" autocapitalize="off" autocorrect="off" spellcheck="false" />
     <label>価格 (JPYC, 整数)</label>
     <input id="price" type="number" min="0" value="1500" inputmode="numeric" />
-    <label>ネットワーク</label>
-    <input id="network" value="eip155:137" autocapitalize="off" autocorrect="off" spellcheck="false" />
+    <label>ネットワーク <span class="fixed-note">— 現在は Polygon のみ対応（他チェーンは順次）</span></label>
+    <select id="network">
+      <option value="eip155:137" selected>Polygon</option>
+      <option value="eip155:1" disabled>Ethereum（近日対応）</option>
+      <option value="eip155:43114" disabled>Avalanche（近日対応）</option>
+      <option value="eip155:8217" disabled>Kaia（近日対応）</option>
+    </select>
     <label>JPYC コントラクト (asset) <span class="fixed-note">— 固定（JPYC / Polygon）</span></label>
     <input id="asset" value="0xe7c3d8c9a439fede00d2600032d5db0be71c3c29" readonly
       autocapitalize="off" autocorrect="off" spellcheck="false" />
@@ -162,6 +167,7 @@ function build(){
   $("prlink").href = `https://github.com/${REPO}/edit/main/registry.json`;
 }
 document.querySelectorAll("input").forEach(el=>el.addEventListener("input", build));
+document.querySelectorAll("select").forEach(el=>el.addEventListener("change", build));
 build();
 </script>
 </body>
