@@ -156,7 +156,12 @@ node check-pr.mjs https://YOUR_DOMAIN/.well-known/x402-catalog.json
 
 ## エージェント開発者（買い手）向け
 
-登録されたサービス一覧は、scan エンジンが提供する list API から取得します（提供形態は別途）。最小には、このリポジトリの [`registry.json`](registry.json) の URL 群を読み、各 `catalog_url` を取得すれば、JPYC × x402 サービスを列挙できます。
+MCP サーバーや購買 CLI からの接続手順・データ契約・参照実装は **[CONNECT.md](CONNECT.md)** にまとめています。要点：
+
+- **本線**：scan エンジンの list API（`GET {SCAN_API}/services?q=...`）を引く。trust 信号・ランク込み
+- **フォールバック**：[`registry.json`](registry.json) を直読みし、各 `catalog_url` を取得して列挙
+- **ランク**：`verified` > `registered` > 実績。合成スコアは無いので重み付けは各 agent の policy で
+- **参照実装**：[`@yen402/mcp`](https://github.com/kakedashi3/yen402-mcp) の `discover_jpyc_resources`。同じ `?q=` は Kova のような別の買い手エージェントからも叩けます
 
 ---
 
