@@ -88,12 +88,17 @@
   .card p{margin:0;color:var(--muted);font-size:.93rem;line-height:1.8;}
 
   /* who */
+  /* who: 和文タイポ準拠（line-break:strict 禁則 / 字間 / 見出し palt / emoji をバッジで字面揃え） */
+  #who h2{font-feature-settings:"palt" 1;}
+  #who .sub{letter-spacing:.02em;}
   .checks{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
   @media(max-width:560px){.checks{grid-template-columns:1fr;}}
-  .check{display:flex;align-items:center;gap:12px;background:#fff;border:1px solid var(--line);
-    border-radius:12px;padding:15px 18px;font-size:.95rem;transition:.15s;}
-  .check:hover{border-color:#d9d9ec;box-shadow:0 6px 18px rgba(15,16,33,.06);}
-  .check .e{font-size:1.2rem;line-height:1;flex:none;}
+  .check{display:flex;align-items:center;gap:14px;background:#fff;border:1px solid var(--line);
+    border-radius:12px;padding:16px 18px;font-size:.95rem;line-height:1.6;letter-spacing:.02em;
+    line-break:strict;overflow-wrap:anywhere;transition:.15s;}
+  .check:hover{border-color:#d9d9ec;box-shadow:0 6px 18px rgba(15,16,33,.06);transform:translateY(-1px);}
+  .check .e{flex:none;width:38px;height:38px;border-radius:10px;display:grid;place-items:center;
+    background:#f0eefe;font-size:1.1rem;line-height:1;}
 
   /* form */
   .formcard{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:8px 8px 4px;
