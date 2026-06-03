@@ -34,8 +34,9 @@
   .eyebrow{display:inline-block;font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;
     background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.28);
     padding:5px 12px;border-radius:999px;margin:48px 0 24px;}
-  h1{font-size:clamp(1.9rem,5.2vw,3.2rem);line-height:1.28;margin:0 0 26px;font-weight:850;
-    letter-spacing:.005em;font-feature-settings:"palt" 1;}
+  h1{font-size:clamp(1.9rem,5.2vw,3.2rem);line-height:1.32;margin:0 0 26px;font-weight:850;
+    letter-spacing:.005em;font-feature-settings:"palt" 1;word-break:keep-all;}
+  h1 .nb{white-space:nowrap;}
   h1 .hl{background:linear-gradient(180deg,transparent 62%,rgba(255,226,122,.55) 62%);
     -webkit-box-decoration-break:clone;box-decoration-break:clone;padding:0 .06em;}
   .lede{font-size:clamp(1rem,2.4vw,1.18rem);line-height:1.9;max-width:640px;color:rgba(255,255,255,.94);margin:0 0 34px;letter-spacing:.02em;}
@@ -114,7 +115,7 @@
     </nav>
 
     <span class="eyebrow">JPYC × X402 · DISCOVERY LAYER</span>
-    <h1>AIに見つけてもらう。<br><span class="hl">JPYC × x402 のディスカバリーレイヤー。</span></h1>
+    <h1>AIに見つけてもらう。<br><span class="nb">JPYC × x402 の</span><wbr><span class="nb hl">ディスカバリーレイヤー</span>。</h1>
     <p class="lede">
       AIエージェントが探して買う時代、売り手の問題は「広告を見てもらう」ではなく
       <b>「エージェントに発見・選別してもらう」</b>に変わる。
