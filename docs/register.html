@@ -51,7 +51,16 @@
   ol { padding-left:1.2em; } code { background:#eef0ff; color:#4b3fb0; padding:1px 6px; border-radius:5px; font-size:.85em; }
   .howpr { font-size:.84rem; color:var(--muted); margin:12px 0 0; padding-left:1.2em; }
   .howpr li { margin:5px 0; }
-  .step { display:inline-block; font-weight:800; color:var(--accent); font-feature-settings:"palt" 1; }
+  .step { display:inline-block; font-weight:800; color:#fff; background:var(--accent); border-radius:999px;
+    padding:3px 12px; font-size:.8rem; letter-spacing:.04em; font-feature-settings:"palt" 1; margin-right:8px; }
+  /* 上部の手順フロー帯（①→②→③ が順番だと一目で分かる） */
+  .flow { display:flex; flex-wrap:wrap; align-items:center; gap:8px 10px; background:var(--card);
+    border:1px solid var(--line); border-radius:12px; padding:14px 16px; margin:0 0 12px; }
+  .flow .fstep { font-size:.9rem; font-weight:700; }
+  .flow .fstep b { color:var(--accent); font-feature-settings:"palt" 1; margin-right:4px; }
+  .flow .farrow { color:var(--muted); font-weight:800; }
+  @media (max-width:520px){ .flow .farrow{ display:none; } .flow .fstep{ flex:1 1 100%; }
+    .flow .fstep::before{ content:"↓ "; color:var(--muted); } .flow .fstep:first-child::before{ content:""; } }
 
   /* エンドポイント行（API ごとに価格） */
   .eps-head { font-weight:700; font-size:.88rem; margin:16px 0 4px; }
@@ -87,10 +96,18 @@
   <p class="note">💡 まだ売っていない／検討中の方は、まず <a href="./interest.html">JPYC × x402 で API 収益化（興味調査）</a> をどうぞ。</p>
   <p class="note">⚠️ 有志による<b>非公式</b>プロジェクトです。JPYC 株式会社とは関係ありません(JPYC は同社の登録商標)。手数料は無料。
   登録の実体は GitHub への Pull Request で、このページはその下書きを生成するだけ(バックエンドなし)。</p>
-  <p class="note">🛠 すでに <code>openapi.json</code> を持っている場合（FastAPI/Swagger 等）は、このフォーム不要。有料 op に <code>x-payment-info</code> + <code>x-jp402</code> を足して、③ の <code>{ "openapi_url": … }</code> を PR するだけです。</p>
+  <p class="note">🛠 すでに <code>openapi.json</code> を持っている場合（FastAPI/Swagger 等）は、このフォーム不要。有料 op に <code>x-payment-info</code> + <code>x-jp402</code> を足して、手順③ の <code>{ "openapi_url": … }</code> を PR するだけです。</p>
+
+  <div class="flow">
+    <span class="fstep"><b>手順①</b>openapi.json を作る</span>
+    <span class="farrow">→</span>
+    <span class="fstep"><b>手順②</b>自分のサイトに置く</span>
+    <span class="farrow">→</span>
+    <span class="fstep"><b>手順③</b>URL を1行 PR</span>
+  </div>
 
   <div class="card">
-    <p><span class="step">① あなたの値を入力</span> → <code>openapi.json</code> が下に生成されます。</p>
+    <p><span class="step">手順①</span>値を入力 → <code>openapi.json</code> を作る</p>
     <label class="req">サービス名 (publisher)</label>
     <input id="name" placeholder="○○コーヒー" />
     <label class="req">サイトのオリジン (servers)</label>
@@ -119,15 +136,15 @@
   </div>
 
   <div class="card">
-    <p><span class="step">② publish</span> — この <code>openapi.json</code> を、あなたのサイトの
-    <code>/openapi.json</code> に置く(Next.js は <code>public/openapi.json</code>)。
+    <p><span class="step">手順②</span>自分のサイトに置く（publish）— この <code>openapi.json</code> を
+    <code>/openapi.json</code> に(Next.js は <code>public/openapi.json</code>)。
     <span class="fixed-note">discovery 正典 = OpenAPI（<a href="https://www.x402scan.com/discovery/spec" target="_blank" rel="noopener">x402scan spec</a> 準拠）</span></p>
     <pre id="openapi">(入力すると生成)</pre>
     <button onclick="copy('openapi')">📋 openapi.json をコピー</button>
   </div>
 
   <div class="card">
-    <p><span class="step">③ PR</span> — 下の1行を <code>registry.json</code> の <code>entries</code> に追加して PR。</p>
+    <p><span class="step">手順③</span>レジストリに登録（PR）— 下の1行を <code>registry.json</code> の <code>entries</code> に追加。</p>
     <pre id="entry">(入力すると生成)</pre>
     <a class="btn" id="prlink" href="#" target="_blank" rel="noopener" onclick="copy('entry')">📋 entry をコピーして GitHub を開く</a>
     <ol class="howpr">
