@@ -53,14 +53,23 @@
   .howpr li { margin:5px 0; }
   .step { display:inline-block; font-weight:800; color:#fff; background:var(--accent); border-radius:999px;
     padding:3px 12px; font-size:.8rem; letter-spacing:.04em; font-feature-settings:"palt" 1; margin-right:8px; }
-  /* 上部の手順フロー帯（①→②→③ が順番だと一目で分かる） */
-  .flow { display:flex; flex-wrap:wrap; align-items:center; gap:8px 10px; background:var(--card);
-    border:1px solid var(--line); border-radius:12px; padding:14px 16px; margin:0 0 12px; }
-  .flow .fstep { font-size:.9rem; font-weight:700; }
-  .flow .fstep b { color:var(--accent); font-feature-settings:"palt" 1; margin-right:4px; }
-  .flow .farrow { color:var(--muted); font-weight:800; }
-  @media (max-width:520px){ .flow .farrow{ display:none; } .flow .fstep{ flex:1 1 100%; }
-    .flow .fstep::before{ content:"↓ "; color:var(--muted); } .flow .fstep:first-child::before{ content:""; } }
+  /* 手順 UI（番号付きステップ・①→②→③ の順番が一目で分かる） */
+  .steps { list-style:none; margin:4px 0 16px; padding:0; display:grid;
+    grid-template-columns:repeat(3,1fr); gap:12px; }
+  .steps li { position:relative; background:var(--card); border:1px solid var(--line);
+    border-radius:14px; padding:16px 14px; }
+  .steps .n { display:inline-flex; align-items:center; justify-content:center; width:32px; height:32px;
+    border-radius:50%; background:var(--accent); color:#fff; font-weight:800; font-size:1rem; margin-bottom:9px; }
+  .steps b { display:block; font-size:.96rem; line-height:1.45; font-feature-settings:"palt" 1; }
+  .steps small { display:block; color:var(--muted); font-size:.8rem; margin-top:3px; }
+  .steps li:not(:last-child)::after { content:"→"; position:absolute; right:-10px; top:50%;
+    transform:translateY(-50%); color:var(--accent); font-weight:800; }
+  @media (max-width:560px){
+    .steps { grid-template-columns:1fr; gap:9px; }
+    .steps li { display:flex; align-items:center; gap:13px; padding:13px 15px; }
+    .steps .n { margin-bottom:0; flex:none; }
+    .steps li:not(:last-child)::after { content:"↓"; right:auto; left:30px; top:auto; bottom:-7px; transform:none; }
+  }
 
   /* エンドポイント行（API ごとに価格） */
   .eps-head { font-weight:700; font-size:.88rem; margin:16px 0 4px; }
@@ -93,17 +102,15 @@
   </div>
 </header>
 <main>
+  <ol class="steps">
+    <li><span class="n">1</span><div><b>openapi.json を作る</b><small>下のフォームで生成</small></div></li>
+    <li><span class="n">2</span><div><b>自分のサイトに置く</b><small><code>/openapi.json</code> で公開</small></div></li>
+    <li><span class="n">3</span><div><b>URL を1行 PR</b><small>registry に登録</small></div></li>
+  </ol>
+
   <p class="note">⚠️ 有志による<b>非公式</b>プロジェクトです。JPYC 株式会社とは関係ありません(JPYC は同社の登録商標)。手数料は無料。
   登録の実体は GitHub への Pull Request で、このページはその下書きを生成するだけ(バックエンドなし)。</p>
   <p class="note">🛠 すでに <code>openapi.json</code> を持っている場合（FastAPI/Swagger 等）は、このフォーム不要。有料 op に <code>x-payment-info</code> + <code>x-jp402</code> を足して、手順③ の <code>{ "openapi_url": … }</code> を PR するだけです。</p>
-
-  <div class="flow">
-    <span class="fstep"><b>手順①</b>openapi.json を作る</span>
-    <span class="farrow">→</span>
-    <span class="fstep"><b>手順②</b>自分のサイトに置く</span>
-    <span class="farrow">→</span>
-    <span class="fstep"><b>手順③</b>URL を1行 PR</span>
-  </div>
 
   <div class="card">
     <p><span class="step">手順①</span>値を入力 → <code>openapi.json</code> を作る</p>
