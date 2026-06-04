@@ -147,6 +147,8 @@
     <span class="fixed-note">discovery 正典 = OpenAPI（<a href="https://www.x402scan.com/discovery/spec" target="_blank" rel="noopener">x402scan spec</a> 準拠）</span></p>
     <pre id="openapi">(入力すると生成)</pre>
     <button onclick="copy('openapi')">📋 openapi.json をコピー</button>
+    <p class="howpr" style="margin:14px 0 6px">公開できたら、登録前に jp402 で動作確認できます（openapi を解決＋各ルートを probe・<b>登録はされません</b>）。</p>
+    <a id="testlink" class="btn ghost" href="https://jp402.com/test" target="_blank" rel="noopener">🔎 登録前にテストする</a>
   </div>
 
   <div class="card">
@@ -254,6 +256,9 @@ function build(){
   $("openapi").textContent = JSON.stringify(openapi, null, 2);
   $("entry").textContent = JSON.stringify({ openapi_url: origin + "/openapi.json" });
   $("prlink").href = `https://github.com/${REPO}/edit/main/registry.json`;
+  // 登録前テスト導線（jp402 の /test を origin 付きで開く。jp402.com デプロイ後にライブ）
+  const validOrigin = /^https?:\/\//.test(originRaw);
+  $("testlink").href = "https://jp402.com/test" + (validOrigin ? "?origin=" + encodeURIComponent(origin) : "");
 }
 
 document.querySelectorAll("#name,#origin,#payTo").forEach(el => el.addEventListener("input", build));
