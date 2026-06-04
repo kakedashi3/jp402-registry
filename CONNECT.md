@@ -64,7 +64,7 @@ GET https://raw.githubusercontent.com/kakedashi3/jp402-registry/main/registry.js
 
 | env | 既定 | 役割 |
 |---|---|---|
-| `JP402_SCAN_API` | `https://paylog.dev/api/v1/jpyc` | scan list API（本線） |
+| `JP402_SCAN_API` | `https://jp402.com/api` | scan list API（本線）。一覧は `GET {JP402_SCAN_API}/services` |
 | `JP402_REGISTRY_URL` | (未設定) | `registry.json` の raw URL（static フォールバック） |
 | `JP402_TIMEOUT_MS` | `6000` | ライブ取得タイムアウト |
 | `JP402_DISCOVERY` | (on) | `off` でライブ発見を無効化 |
@@ -77,24 +77,25 @@ GET https://raw.githubusercontent.com/kakedashi3/jp402-registry/main/registry.js
 ## 最小の擬似コード
 
 ```js
-const SCAN = process.env.JP402_SCAN_API ?? "https://paylog.dev/api/v1/jpyc";
+const SCAN = process.env.JP402_SCAN_API ?? "https://jp402.com/api";
 async function discover(query) {
-  // 1) 本線
+  // 1) 本線（jp402 の list API。signals/registered 込み）
   try {
-    const r = await fetch(`${SCAN}/services?q=${encodeURIComponent(query)}`);
+    const r = await fetch(`${SCAN}/services`);
     if (r.ok) {
       const { services } = await r.json();
-      if (services?.length) return rank(services);
+      if (services?.length) return rank(services.filter(s => !query || JSON.stringify(s).includes(query)));
     }
   } catch {}
-  // 2) フォールバック: registry 直読み（public 時）
+  // 2) フォールバック: registry 直読み（public 時）。entry は openapi_url / url / catalog_url。
   if (process.env.JP402_REGISTRY_URL) {
     const reg = await (await fetch(process.env.JP402_REGISTRY_URL)).json();
     const out = [];
     for (const e of reg.entries ?? []) {
-      try { out.push(...(await (await fetch(e.catalog_url)).json()).services); } catch {}
+      const src = e.openapi_url ?? (e.url ? `${e.url.replace(/\/+$/,'')}/openapi.json` : e.catalog_url);
+      try { out.push(...resolve(await (await fetch(src)).json())); } catch {} // resolve: OpenAPI/catalog → services[]
     }
-    return rank(out.filter(s => JSON.stringify(s).includes(query)));
+    return rank(out.filter(s => !query || JSON.stringify(s).includes(query)));
   }
   return [];
 }

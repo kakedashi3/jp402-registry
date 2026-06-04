@@ -39,7 +39,59 @@
 >
 > 登録は PR 経由なので、**「誰が・どのサービスで載りたがったか」が公開 PR として可視化**されます（registry.json の git 履歴 + PR 一覧 = 需要ログ）。分析基盤は持たず、GitHub の仕組みだけで需要を観測します。
 
-## Step 1 — カタログ JSON を作る
+> **discovery 正典 = OpenAPI**（[x402scan spec](https://www.x402scan.com/discovery/spec) 準拠）。推奨は自サイトに `/openapi.json` を1枚置き、registry に `openapi_url` を1行 PR するだけ。旧 Bazaar カタログ（`.well-known/x402-catalog.json` + `catalog_url`）も後方互換で受理します。
+
+## OpenAPI で登録する（推奨）
+
+### 1. `/openapi.json` を置く
+有料 operation に `x-payment-info`（JPYC/Polygon）と `responses.402`、JP 情報は `x-jp402` に隔離。実例 = [`jp402/examples/newsletter.openapi.json`](https://github.com/kakedashi3/jp402/blob/main/examples/newsletter.openapi.json)。最小例：
+
+```json
+{
+  "openapi": "3.1.0",
+  "info": { "title": "YOUR_SHOP", "version": "1.0.0", "x-guidance": "使い方の一言", "x-jp402": { "currency": "JPYC" } },
+  "servers": [{ "url": "https://YOUR_DOMAIN" }],
+  "paths": {
+    "/api/buy": {
+      "get": {
+        "operationId": "buy",
+        "x-payment-info": {
+          "price": { "mode": "fixed", "currency": "JPYC", "amount": "1500" },
+          "protocols": [{ "x402": { "network": "eip155:137", "asset": "0xe7c3d8c9a439fede00d2600032d5db0be71c3c29", "payTo": "0xYOUR_WALLET" } }]
+        },
+        "x-jp402": { "invoice": { "qualifiedIssuer": true, "registrationNumber": "T0000000000000" } },
+        "responses": {
+          "200": { "description": "OK", "content": { "application/json": { "schema": { "type": "object" } } } },
+          "402": { "description": "Payment Required" }
+        }
+      }
+    }
+  }
+}
+```
+
+- 無料 op は `"security": []`、ウォレット署名のみの無料 op は `"security": [{ "siwx": [] }]`（`x-payment-info` は付けない）。
+- `https://YOUR_DOMAIN/openapi.json` で配信（Next.js なら `public/openapi.json`）。T番号が無ければ `x-jp402.invoice` を省略。
+
+### 2. registry に PR
+[`registry.json`](registry.json) の `entries` に **1 行**：
+
+```json
+{ "openapi_url": "https://YOUR_DOMAIN/openapi.json" }
+```
+
+（オリジンだけ渡す `{ "url": "https://YOUR_DOMAIN" }` も可。`/openapi.json` を優先探索し、無ければ `/.well-known/x402-catalog.json` を探します。）
+
+### 3. CI 検査（自動・承認なし）
+PR を出すと [`check-pr.mjs`](check-pr.mjs) が **必須項目 + JPYC 有料 op + `responses.402`**（具体 resource は 402 probe / 必須 param・テンプレは宣言ベース）を客観検査。通れば人の承認なしでマージ可。最終真実は **runtime 402**。
+
+```bash
+node check-pr.mjs https://YOUR_DOMAIN/openapi.json
+```
+
+---
+
+## （旧式・後方互換）Bazaar カタログで登録する
 
 下をコピーして、`YOUR_...` の箇所をあなたの値に置き換えてください。
 
