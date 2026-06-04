@@ -10,7 +10,6 @@
 
 - 🗺️ **jp402（ディスカバリーレイヤー / ホーム）** → <https://kakedashi3.github.io/jp402-registry/>
 - 📝 **売り手の登録** → <https://kakedashi3.github.io/jp402-registry/register.html>
-- 🚀 **API 収益化に興味がある方（需要調査）** → <https://kakedashi3.github.io/jp402-registry/interest.html>
 
 ---
 
