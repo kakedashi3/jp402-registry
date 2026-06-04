@@ -105,10 +105,11 @@
   </div>
 
   <div class="card">
-    <p><span class="step">② publish</span> — この JSON を、あなたのサイトの
-    <code>/.well-known/x402-catalog.json</code> に置く(Next.js は <code>public/.well-known/</code>)。</p>
-    <pre id="catalog">(入力すると生成)</pre>
-    <button onclick="copy('catalog')">📋 catalog JSON をコピー</button>
+    <p><span class="step">② publish</span> — この <code>openapi.json</code> を、あなたのサイトの
+    <code>/openapi.json</code> に置く(Next.js は <code>public/openapi.json</code>)。
+    <span class="fixed-note">discovery 正典 = OpenAPI（<a href="https://www.x402scan.com/discovery/spec" target="_blank" rel="noopener">x402scan spec</a> 準拠）</span></p>
+    <pre id="openapi">(入力すると生成)</pre>
+    <button onclick="copy('openapi')">📋 openapi.json をコピー</button>
   </div>
 
   <div class="card">
@@ -125,7 +126,7 @@
   <div class="card note">
     <b>このあと自動で起きること</b>
     <ol>
-      <li>PR の CI が「準拠スキーマか」「<code>resource</code> が <b>402</b> を返すか」を客観チェック(承認ではない)</li>
+      <li>PR の CI が「OpenAPI 必須項目 + JPYC 有料 op(<code>x-payment-info</code>)+ <code>responses.402</code>」を客観チェック(具体 resource は <b>402</b> probe / 必須 param・テンプレは宣言ベース。承認ではない)</li>
       <li>マージ後、scan が信頼シグナルを付与(T番号の実在検証は国税庁 API 取得後・構築中)</li>
     </ol>
     手順の詳細は <a href="https://github.com/kakedashi3/jp402-registry#readme" target="_blank" rel="noopener">README</a> /
@@ -150,26 +151,39 @@ function build(){
   if(tnum && !/^T[0-9]{13}$/.test(tnum)) errs.push("T番号は T+13桁");
   $("err").textContent = errs.length ? "要確認: " + errs.join(" / ") : "";
 
-  // 18 decimals: 整数 JPYC に 0 を18個(BigInt 不要・文字列連結)
-  const maxAmount = /^[0-9]+$/.test(price) ? price + "0".repeat(18) : "";
+  // resource URL を origin(servers) と path(paths キー)に分解
+  let origin = "https://YOUR_DOMAIN", path = "/api/buy";
+  try { const u = new URL(resource); origin = u.origin; path = u.pathname; } catch {}
 
-  const xjp402 = { currency:"JPYC" };
-  if(tnum) xjp402.invoice = { qualifiedIssuer:true, registrationNumber:tnum };
-
-  const catalog = {
-    catalog: { spec:"jp402-catalog/0.1", baseSpec:"x402-bazaar-discovery/2", publisher:name||"YOUR_SHOP" },
-    services: [{
-      resource: resource||"https://YOUR_DOMAIN/api/buy",
-      accepts: [{ scheme:"exact", network:network||"eip155:137",
-        asset:asset, payTo:payTo||"0xYOUR_WALLET", maxAmountRequired:maxAmount||"PRICE" }],
-      "x-jp402": xjp402
-    }]
+  // x402scan spec: x-payment-info.price.amount は人間可読(JPYC 整数)。JP は x-jp402 に隔離。
+  const op = {
+    operationId: "buy",
+    summary: (name||"サービス") + " の購入",
+    "x-payment-info": {
+      price: { mode:"fixed", currency:"JPYC", amount: (/^[0-9]+$/.test(price) ? price : "PRICE") },
+      protocols: [{ x402: { network:network||"eip155:137", asset:asset, payTo:payTo||"0xYOUR_WALLET" } }]
+    },
+    responses: {
+      "200": { description:"OK", content:{ "application/json":{ schema:{ type:"object" } } } },
+      "402": { description:"Payment Required — JPYC(Polygon)で支払う" }
+    }
   };
-  $("catalog").textContent = JSON.stringify(catalog, null, 2);
+  if(tnum) op["x-jp402"] = { invoice:{ qualifiedIssuer:true, registrationNumber:tnum } };
 
-  const catalogUrl = resource ? new URL("/.well-known/x402-catalog.json", resource).href
-                              : "https://YOUR_DOMAIN/.well-known/x402-catalog.json";
-  $("entry").textContent = JSON.stringify({ catalog_url: catalogUrl });
+  const openapi = {
+    openapi: "3.1.0",
+    info: {
+      title: name||"YOUR_SHOP", version:"1.0.0",
+      "x-guidance": "GET " + path + " を呼ぶと 402 が返る。JPYC(Polygon / eip155:137)で x402 決済すると購入できる。",
+      "x-jp402": { currency:"JPYC" }
+    },
+    servers: [{ url: origin }],
+    paths: { [path]: { get: op } }
+  };
+  $("openapi").textContent = JSON.stringify(openapi, null, 2);
+
+  const openapiUrl = (resource ? origin : "https://YOUR_DOMAIN") + "/openapi.json";
+  $("entry").textContent = JSON.stringify({ openapi_url: openapiUrl });
   $("prlink").href = `https://github.com/${REPO}/edit/main/registry.json`;
 }
 document.querySelectorAll("input").forEach(el=>el.addEventListener("input", build));
