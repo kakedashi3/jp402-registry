@@ -42,8 +42,10 @@ if (arg === '--registry') {
   const reg = await readJson(new URL('./registry.json', import.meta.url).pathname)
   if (!Array.isArray(reg.entries)) fail('registry.json: entries が配列でない')
   for (const [i, e] of reg.entries.entries()) {
-    if (typeof e?.catalog_url !== 'string' || !/^https?:\/\//.test(e.catalog_url))
-      fail(`registry.json: entries[${i}].catalog_url が URL でない`)
+    // OpenAPI 正典に pivot。openapi_url / url / catalog_url(後方互換)のいずれかが URL であればよい。
+    const u = e?.openapi_url || e?.url || e?.catalog_url
+    if (typeof u !== 'string' || !/^https?:\/\//.test(u))
+      fail(`registry.json: entries[${i}] に openapi_url / url / catalog_url(URL)が無い`)
   }
   ok(`registry.json OK (${reg.entries.length} entries)`)
   process.exit(0)

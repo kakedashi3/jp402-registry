@@ -1,16 +1,18 @@
 {
   "_meta": {
-    "spec": "jp402-registry/0.1",
-    "description": "JPYC × x402 の opt-in 登録台帳。売り手は自ドメインに .well-known/x402-catalog.json (x-jp402 準拠) を publish し、ここに catalog_url を1行 PR する。",
+    "spec": "jp402-registry/0.2",
+    "description": "JPYC × x402 の opt-in 登録台帳。discovery 正典は OpenAPI(x402scan spec 準拠 https://www.x402scan.com/discovery/spec)。売り手は自ドメインに /openapi.json(有料 op に x-payment-info + x-jp402)を publish し、ここに entry を1行 PR する。entry は { openapi_url } または { url }(=オリジン。/openapi.json 優先・無ければ /.well-known/x402-catalog.json)。{ catalog_url }(旧 Bazaar)も後方互換で受容。",
     "rules": {
       "approval": "承認ゲートは無し。準拠していれば載る。運営は登録可否を決めない。",
-      "ci_check": "PR の新規 entry は CI が自動検査する: ① x-jp402 schema 準拠 ② 各 resource が 402 を返す(生きた x402 か)。両方 OK で人の承認なしマージ可。客観疎通チェックであり承認ではない。",
+      "ci_check": "PR の新規 entry は CI が自動検査する(多形式): OpenAPI なら 必須項目 + JPYC(Polygon)有料 op(x-payment-info)+ responses.402 + 具体 resource の 402 probe(テンプレートは宣言ベース)。catalog なら x-jp402 schema + 402 probe。客観疎通チェックであり承認ではない。最終真実は runtime 402。",
       "denylist_only": "弾くのは既知の悪性(denylist)のみ。allowlist(中央集権)はしない。",
       "verified": "registered/verified は scan エンジンが付与する。verified は T番号を国税庁 適格請求書 Web-API で実在検証した結果であり、自己申告ではない。【構築中】国税庁 Web-API は未取得(申請前)のため verified は当面未稼働。registered + 形式検証 + 402 生存チェックまでが有効。",
-      "truth_source": "各エントリの中身は catalog_url 先(売り手のドメイン)が真実。ここには URL だけを置く。"
+      "truth_source": "各エントリの中身は entry の URL 先(売り手のドメインの /openapi.json 等)が真実。ここには URL だけを置く。"
     },
-    "howto": "README.md 参照",
-    "updated": "2026-06-02"
+    "howto": "README.md / docs/register.html 参照",
+    "updated": "2026-06-04"
   },
-  "entries": []
+  "entries": [
+    { "openapi_url": "https://www.kakedashi-newsletter.xyz/openapi.json" }
+  ]
 }
