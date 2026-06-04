@@ -8,8 +8,9 @@
 
 ## 🔗 リンク
 
-- 🗺️ **jp402（ディスカバリーレイヤー / ホーム）** → <https://kakedashi3.github.io/jp402-registry/>
-- 📝 **売り手の登録** → <https://kakedashi3.github.io/jp402-registry/register.html>
+- 📝 **売り手の登録（ホーム）** → <https://registry.jp402.com/>
+- 🗺️ **ディスカバリーレイヤーとは / 探す側（scan）** → <https://jp402.com/>
+- 🔎 **ディスカバリー scan（探す側・買い手向け）** → <https://jp402.com/>
 
 ---
 

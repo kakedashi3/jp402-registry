@@ -1,0 +1,12 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "outputDirectory": "docs",
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "redirects": [
+    { "source": "/register", "destination": "/", "permanent": true },
+    { "source": "/register.html", "destination": "/", "permanent": true },
+    { "source": "/about", "destination": "https://jp402.com/", "permanent": false },
+    { "source": "/about.html", "destination": "https://jp402.com/", "permanent": false }
+  ]
+}
