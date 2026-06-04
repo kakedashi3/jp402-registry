@@ -52,10 +52,22 @@
   .howpr { font-size:.84rem; color:var(--muted); margin:12px 0 0; padding-left:1.2em; }
   .howpr li { margin:5px 0; }
   .step { display:inline-block; font-weight:800; color:var(--accent); font-feature-settings:"palt" 1; }
+
+  /* エンドポイント行（API ごとに価格） */
+  .eps-head { font-weight:700; font-size:.88rem; margin:16px 0 4px; }
+  .eps-head .fixed-note { display:block; margin-top:2px; }
+  .eps { display:grid; gap:10px; }
+  .ep { display:grid; grid-template-columns: 1fr 96px 150px auto; gap:8px; align-items:center;
+    padding:10px; border:1px solid var(--line); border-radius:10px; background:#fafaff; }
+  .ep input { font-size:15px; }
+  .ep-del { min-height:40px; padding:0 12px; margin:0; background:#fff; color:#d33; border:1px solid var(--line); }
+  .ep-del:hover { filter:none; border-color:#d33; }
   @media (max-width:520px) {
     .hero .in, main { padding-left:14px; padding-right:14px; }
     .card { padding:16px; }
     button, .btn { display:flex; width:100%; }
+    .ep { grid-template-columns: 1fr; }
+    .ep-del { width:auto; justify-self:end; }
     pre { font-size:.76rem; }
   }
 </style>
@@ -75,19 +87,18 @@
   <p class="note">💡 まだ売っていない／検討中の方は、まず <a href="./interest.html">JPYC × x402 で API 収益化（興味調査）</a> をどうぞ。</p>
   <p class="note">⚠️ 有志による<b>非公式</b>プロジェクトです。JPYC 株式会社とは関係ありません(JPYC は同社の登録商標)。手数料は無料。
   登録の実体は GitHub への Pull Request で、このページはその下書きを生成するだけ(バックエンドなし)。</p>
+  <p class="note">🛠 すでに <code>openapi.json</code> を持っている場合（FastAPI/Swagger 等）は、このフォーム不要。有料 op に <code>x-payment-info</code> + <code>x-jp402</code> を足して、③ の <code>{ "openapi_url": … }</code> を PR するだけです。</p>
 
   <div class="card">
-    <p><span class="step">① あなたの値を入力</span> → JSON が下に生成されます。</p>
+    <p><span class="step">① あなたの値を入力</span> → <code>openapi.json</code> が下に生成されます。</p>
     <label class="req">サービス名 (publisher)</label>
     <input id="name" placeholder="○○コーヒー" />
-    <label class="req">402 を返す API の URL (resource)</label>
-    <input id="resource" placeholder="https://shop.example.jp/api/buy"
+    <label class="req">サイトのオリジン (servers)</label>
+    <input id="origin" placeholder="https://shop.example.jp"
       type="url" inputmode="url" autocapitalize="off" autocorrect="off" spellcheck="false" />
-    <label class="req">受取ウォレット (payTo, 0x…40桁)</label>
+    <label class="req">受取ウォレット (payTo, 0x…40桁) <span class="fixed-note">— 全エンドポイント共通</span></label>
     <input id="payTo" placeholder="0x…"
       inputmode="text" autocapitalize="off" autocorrect="off" spellcheck="false" />
-    <label>価格 (JPYC, 整数)</label>
-    <input id="price" type="number" min="0" value="1500" inputmode="numeric" />
     <label>ネットワーク <span class="fixed-note">— 現在は Polygon のみ対応（他チェーンは順次）</span></label>
     <select id="network">
       <option value="eip155:137" selected>Polygon</option>
@@ -98,9 +109,12 @@
     <label>JPYC コントラクト (asset) <span class="fixed-note">— 固定（JPYC / Polygon）</span></label>
     <input id="asset" value="0xe7c3d8c9a439fede00d2600032d5db0be71c3c29" readonly
       autocapitalize="off" autocorrect="off" spellcheck="false" />
-    <label>適格請求書登録番号 (T番号, 任意・T+13桁)</label>
-    <input id="tnum" placeholder="T1234567890123"
-      autocapitalize="characters" autocorrect="off" spellcheck="false" />
+
+    <div class="eps-head">エンドポイント（API ごとに価格を設定・複数可）
+      <span class="fixed-note">パス（例 <code>/api/buy</code>）／ 価格（JPYC 整数）／ T番号（任意・行ごと）</span></div>
+    <div id="eps" class="eps"></div>
+    <button class="btn ghost" id="addep" type="button">➕ エンドポイントを追加</button>
+
     <div class="err" id="err"></div>
   </div>
 
@@ -139,56 +153,90 @@ const $ = id => document.getElementById(id);
 const REPO = "kakedashi3/jp402-registry";
 function copy(id){ navigator.clipboard.writeText($(id).textContent).then(()=>{}, ()=>{}); }
 
+// エンドポイント行を1つ追加
+function addEp(){
+  const div = document.createElement("div");
+  div.className = "ep";
+  div.innerHTML =
+    '<input class="ep-path" placeholder="/api/buy" autocapitalize="off" autocorrect="off" spellcheck="false" />' +
+    '<input class="ep-price" type="number" min="0" inputmode="numeric" placeholder="価格" value="1500" />' +
+    '<input class="ep-tnum" placeholder="T番号(任意)" autocapitalize="characters" autocorrect="off" spellcheck="false" />' +
+    '<button class="ep-del" type="button" title="この行を削除">🗑</button>';
+  div.querySelectorAll("input").forEach(el => el.addEventListener("input", build));
+  div.querySelector(".ep-del").addEventListener("click", () => {
+    if ($("eps").children.length > 1) { div.remove(); build(); }
+  });
+  $("eps").appendChild(div);
+  build();
+}
+
 function build(){
-  const name=$("name").value.trim(), resource=$("resource").value.trim(),
-    payTo=$("payTo").value.trim(), price=$("price").value.trim(),
-    network=$("network").value.trim(), asset=$("asset").value.trim(), tnum=$("tnum").value.trim();
+  const name = $("name").value.trim();
+  const originRaw = $("origin").value.trim();
+  const payTo = $("payTo").value.trim();
+  const network = $("network").value.trim();
+  const asset = $("asset").value.trim();
 
-  const errs=[];
-  if(!name) errs.push("サービス名");
-  if(!/^https?:\/\//.test(resource)) errs.push("正しい resource URL");
-  if(!/^0x[a-fA-F0-9]{40}$/.test(payTo)) errs.push("正しい payTo(0x+40桁)");
-  if(tnum && !/^T[0-9]{13}$/.test(tnum)) errs.push("T番号は T+13桁");
+  let origin = "https://YOUR_DOMAIN";
+  try { origin = new URL(originRaw).origin; } catch {}
+
+  const errs = [];
+  if (!name) errs.push("サービス名");
+  if (!/^https?:\/\//.test(originRaw)) errs.push("正しいオリジン(https://…)");
+  if (!/^0x[a-fA-F0-9]{40}$/.test(payTo)) errs.push("正しい payTo(0x+40桁)");
+
+  // エンドポイント行 → paths
+  const paths = {};
+  const rows = [...document.querySelectorAll("#eps .ep")];
+  rows.forEach((row, i) => {
+    let p = row.querySelector(".ep-path").value.trim();
+    const price = row.querySelector(".ep-price").value.trim();
+    const tnum = row.querySelector(".ep-tnum").value.trim().toUpperCase();
+    if (!p && !price) return; // 空行はスキップ
+    if (p && !p.startsWith("/")) p = "/" + p;
+    if (!p) { errs.push(`#${i + 1} パス`); return; }
+    if (!/^[0-9]+$/.test(price)) errs.push(`#${i + 1} 価格(整数)`);
+    if (tnum && !/^T[0-9]{13}$/.test(tnum)) errs.push(`#${i + 1} T番号`);
+
+    const opId = ("op" + p).replace(/[^a-zA-Z0-9]+/g, "_").replace(/_+$/, "") || "buy";
+    const op = {
+      operationId: opId,
+      summary: (name || "サービス") + " " + p,
+      "x-payment-info": {
+        price: { mode: "fixed", currency: "JPYC", amount: (/^[0-9]+$/.test(price) ? price : "PRICE") },
+        protocols: [{ x402: { network: network || "eip155:137", asset, payTo: payTo || "0xYOUR_WALLET" } }]
+      },
+      responses: {
+        "200": { description: "OK", content: { "application/json": { schema: { type: "object" } } } },
+        "402": { description: "Payment Required — JPYC(Polygon)で支払う" }
+      }
+    };
+    if (tnum) op["x-jp402"] = { invoice: { qualifiedIssuer: true, registrationNumber: tnum } };
+    paths[p] = { get: op };
+  });
+  if (Object.keys(paths).length === 0) errs.push("エンドポイントを1つ以上");
+
   $("err").textContent = errs.length ? "要確認: " + errs.join(" / ") : "";
-
-  // resource URL を origin(servers) と path(paths キー)に分解
-  let origin = "https://YOUR_DOMAIN", path = "/api/buy";
-  try { const u = new URL(resource); origin = u.origin; path = u.pathname; } catch {}
-
-  // x402scan spec: x-payment-info.price.amount は人間可読(JPYC 整数)。JP は x-jp402 に隔離。
-  const op = {
-    operationId: "buy",
-    summary: (name||"サービス") + " の購入",
-    "x-payment-info": {
-      price: { mode:"fixed", currency:"JPYC", amount: (/^[0-9]+$/.test(price) ? price : "PRICE") },
-      protocols: [{ x402: { network:network||"eip155:137", asset:asset, payTo:payTo||"0xYOUR_WALLET" } }]
-    },
-    responses: {
-      "200": { description:"OK", content:{ "application/json":{ schema:{ type:"object" } } } },
-      "402": { description:"Payment Required — JPYC(Polygon)で支払う" }
-    }
-  };
-  if(tnum) op["x-jp402"] = { invoice:{ qualifiedIssuer:true, registrationNumber:tnum } };
 
   const openapi = {
     openapi: "3.1.0",
     info: {
-      title: name||"YOUR_SHOP", version:"1.0.0",
-      "x-guidance": "GET " + path + " を呼ぶと 402 が返る。JPYC(Polygon / eip155:137)で x402 決済すると購入できる。",
-      "x-jp402": { currency:"JPYC" }
+      title: name || "YOUR_SHOP", version: "1.0.0",
+      "x-guidance": "各エンドポイントは GET で 402 を返す。JPYC(Polygon / eip155:137)で x402 決済すると購入できる。",
+      "x-jp402": { currency: "JPYC" }
     },
     servers: [{ url: origin }],
-    paths: { [path]: { get: op } }
+    paths
   };
   $("openapi").textContent = JSON.stringify(openapi, null, 2);
-
-  const openapiUrl = (resource ? origin : "https://YOUR_DOMAIN") + "/openapi.json";
-  $("entry").textContent = JSON.stringify({ openapi_url: openapiUrl });
+  $("entry").textContent = JSON.stringify({ openapi_url: origin + "/openapi.json" });
   $("prlink").href = `https://github.com/${REPO}/edit/main/registry.json`;
 }
-document.querySelectorAll("input").forEach(el=>el.addEventListener("input", build));
-document.querySelectorAll("select").forEach(el=>el.addEventListener("change", build));
-build();
+
+document.querySelectorAll("#name,#origin,#payTo").forEach(el => el.addEventListener("input", build));
+$("network").addEventListener("change", build);
+$("addep").addEventListener("click", addEp);
+addEp(); // 初期行1つ
 </script>
 </body>
 </html>
