@@ -8,7 +8,8 @@
   "author": "kakedashi3",
   "scripts": {
     "validate:self": "node validate.mjs --self",
-    "validate:registry": "node validate.mjs --registry"
+    "validate:registry": "node validate.mjs --registry",
+    "test": "node tests/ci-gate.contract.mjs"
   },
   "dependencies": {
     "ajv": "^8.20.0",
