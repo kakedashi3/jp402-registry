@@ -139,7 +139,11 @@
     <p style="margin-top:18px"><span class="step">2</span>出力された entry を PR</p>
     <pre id="entry2">{ "openapi_url": "https://YOUR_DOMAIN/openapi.json" }</pre>
     <a class="btn" href="https://github.com/kakedashi3/jp402-registry/edit/main/registry.json" target="_blank" rel="noopener" onclick="copy('entry2')">📋 entry をコピーして GitHub を開く</a>
-    <p class="howpr">上のボタンで GitHub を開き、<code>"entries": []</code> の <code>[ ]</code> の中に <b>agent が出力した1行</b>（実ドメイン版）を貼り付け → <b>Commit changes…</b> → <b>Create pull request</b>。CI が形式＋402 probe を自動検査（承認ゲート無し）。<br><span class="fixed-note">※ agent が <code>gh</code> で fork→PR まで済ませた場合は、このステップ不要。</span></p>
+    <p class="howpr" style="margin-bottom:6px">上のボタンで GitHub を開き、<code>"entries": []</code> の <code>[ ]</code> の中に <b>agent が出力した1行</b>（実ドメイン版）を貼り付け。<b>貼り付け後の見本：</b></p>
+    <pre>  "entries": [
+    { "openapi_url": "https://YOUR_DOMAIN/openapi.json" }
+  ]</pre>
+    <p class="howpr"><b>Commit changes…</b> → <b>Create pull request</b> で提案 → 完了（CI が形式＋402 probe を自動検査・承認ゲート無し）。<br><span class="fixed-note">※ 既に他の登録がある場合は直前の行の末尾に <code>,</code> を付ける。agent が <code>gh</code> で fork→PR まで済ませた場合はこのステップ不要。</span></p>
   </div>
 
   <details style="margin:16px 0 0">
