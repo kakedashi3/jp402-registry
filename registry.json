@@ -12,7 +12,5 @@
     "howto": "README.md / docs/register.html 参照",
     "updated": "2026-06-05"
   },
-  "entries": [
-    { "openapi_url": "https://www.kakedashi-newsletter.xyz/openapi.json" }
-  ]
+  "entries": []
 }
