@@ -121,6 +121,8 @@
 1. 有料にすべき HTTP エンドポイントを検出。各 path・価格（JPYC 整数）・受取 payTo を確認する。
    ★payTo は「このリソース専用の新規ウォレット」を使う（他用途と共用しているアドレスは使わない）。
    私のウォレットは勝手に決めず必ず聞くこと。
+   有料エンドポイントが複数ある場合は op ごとに payTo を設定できる。各エンドポイントの売上を
+   別々に把握したいなら op ごとに専用 payTo を分ける（共有でも動くが signals は合算になる）。
 2. /openapi.json（OpenAPI 3.1・ドメイン直下。Next.js なら public/openapi.json）を生成/拡張し、
    各有料 GET に付与：
    - "x-payment-info": { "price": { "mode": "fixed", "currency": "JPYC", "amount": "&lt;価格&gt;" },
