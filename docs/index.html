@@ -125,6 +125,9 @@
    別々に把握したいなら op ごとに専用 payTo を分ける（共有でも動くが signals は合算になる）。
 2. /openapi.json（OpenAPI 3.1・ドメイン直下。Next.js なら public/openapi.json）を生成/拡張し、
    各有料 GET に付与：
+   - "summary": サービス概要を1行で（jp402 の一覧・詳細にそのまま表示される。必須）
+   - パラメータが要る課金 op は "parameters" に required:true で宣言（例 id）。
+     bare URL が無料/別応答になる場合に buyer が払えるURLを組み立てられる
    - "x-payment-info": { "price": { "mode": "fixed", "currency": "JPYC", "amount": "&lt;価格&gt;" },
        "protocols": [ { "x402": { "network": "eip155:137",
        "asset": "0xe7c3d8c9a439fede00d2600032d5db0be71c3c29", "payTo": "&lt;payTo&gt;" } } ] }
