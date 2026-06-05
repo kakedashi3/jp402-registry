@@ -44,7 +44,7 @@
 ## OpenAPI で登録する（推奨）
 
 ### 1. `/openapi.json` を置く
-有料 operation に `x-payment-info`（JPYC/Polygon）と `responses.402`、JP 情報は `x-jp402` に隔離。実例 = [`jp402/examples/newsletter.openapi.json`](https://github.com/kakedashi3/jp402/blob/main/examples/newsletter.openapi.json)。最小例：
+有料 operation に `x-payment-info`（JPYC/Polygon）と `responses.402`、JP 情報は `x-jp402` に隔離。最小例：
 
 ```json
 {
