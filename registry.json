@@ -10,7 +10,7 @@
       "truth_source": "各エントリの中身は entry の URL 先(売り手のドメインの /openapi.json 等)が真実。ここには URL だけを置く。"
     },
     "howto": "README.md / docs/register.html 参照",
-    "updated": "2026-06-05"
+    "updated": "2026-06-05T12:31:00+09:00"
   },
   "entries": [
     {
