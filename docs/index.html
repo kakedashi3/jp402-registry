@@ -139,10 +139,11 @@
     <p style="margin-top:18px"><span class="step">2</span>出力された entry を PR</p>
     <pre id="entry2">{ "openapi_url": "https://YOUR_DOMAIN/openapi.json" }</pre>
     <a class="btn" href="https://github.com/kakedashi3/jp402-registry/edit/main/registry.json" target="_blank" rel="noopener" onclick="copy('entry2')">📋 entry をコピーして GitHub を開く</a>
-    <p class="howpr">agent が出力した実ドメインの1行に置き換えて、<code>"entries": []</code> の角カッコ内に貼る → Commit → <b>Create a new branch &amp; PR</b>。CI が形式＋402 probe を自動検査（承認ゲート無し）。</p>
+    <p class="howpr">上のボタンで GitHub を開き、<code>"entries": []</code> の <code>[ ]</code> の中に <b>agent が出力した1行</b>（実ドメイン版）を貼り付け → <b>Commit changes…</b> → <b>Create pull request</b>。CI が形式＋402 probe を自動検査（承認ゲート無し）。<br><span class="fixed-note">※ agent が <code>gh</code> で fork→PR まで済ませた場合は、このステップ不要。</span></p>
   </div>
 
-  <p class="note" style="text-align:center;font-weight:700">— または、フォームで手動作成（3ステップ）↓ —</p>
+  <details style="margin:16px 0 0">
+    <summary style="cursor:pointer;font-weight:700;color:var(--muted);padding:10px 2px">openapi.json を手書きで作る場合：フォームで手動登録（3ステップ）</summary>
 
   <div class="card">
     <p><span class="step">手順①</span>値を入力 → <code>openapi.json</code> を作る</p>
@@ -188,11 +189,19 @@
     <pre id="entry">(入力すると生成)</pre>
     <a class="btn" id="prlink" href="#" target="_blank" rel="noopener" onclick="copy('entry')">📋 entry をコピーして GitHub を開く</a>
     <ol class="howpr">
-      <li>↑でコピー → 開いた GitHub の editor で <code>"entries": []</code> の <b>角カッコの中</b>にカーソルを置いて貼り付け（→ <code>"entries": [ &lt;ここ&gt; ]</code>）</li>
-      <li><b>中身が変わって初めて「Commit changes」が押せます</b>（未編集だとグレーアウト）</li>
-      <li>「Commit changes」→ <b>Create a new branch & PR</b> を選んで提案</li>
+      <li><b>上のボタン</b>を押す（entry がコピーされ、GitHub の <code>registry.json</code> 編集画面が開きます）</li>
+      <li>ファイル内の <code>"entries": []</code> を探し、<b>角カッコ <code>[ ]</code> の中</b>に貼り付け。下のように変われば OK：
+        <pre>変更前:  "entries": []
+
+変更後:  "entries": [
+           { "openapi_url": "https://あなたのドメイン/openapi.json" }
+         ]</pre>
+      </li>
+      <li>右上の緑ボタン <b>Commit changes…</b> を押す<br><span class="fixed-note">※ 中身を変えるまではグレーで押せません</span></li>
+      <li>出てくるダイアログで <b>Propose changes</b> →（自動で fork）<b>Create pull request</b> → 完了。あとは CI が自動チェック</li>
     </ol>
   </div>
+  </details>
 
   <div class="card note">
     <b>このあと自動で起きること</b>
