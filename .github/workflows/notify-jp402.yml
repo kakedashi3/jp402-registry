@@ -1,0 +1,27 @@
+name: notify jp402 (snapshot 再生成)
+
+# registry.json が main に入った（= 登録 PR マージ）ら、jp402 に repository_dispatch を送り
+# 経済スナップショット再生成 + jp402.com 再デプロイを発火させる。
+# 必要 secret: DISPATCH_TOKEN = kakedashi3/jp402 に Contents:write を持つ PAT（cross-repo dispatch 用）。
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'registry.json'
+
+permissions: {}
+
+jobs:
+  dispatch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Dispatch registry-updated to kakedashi3/jp402
+        env:
+          TOKEN: ${{ secrets.DISPATCH_TOKEN }}
+        run: |
+          curl -sf -X POST \
+            -H "Authorization: Bearer $TOKEN" \
+            -H "Accept: application/vnd.github+json" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            https://api.github.com/repos/kakedashi3/jp402/dispatches \
+            -d '{"event_type":"registry-updated"}'
