@@ -112,6 +112,39 @@
   登録の実体は GitHub への Pull Request で、このページはその下書きを生成するだけ(バックエンドなし)。</p>
   <p class="note">🛠 すでに <code>openapi.json</code> を持っている場合（FastAPI/Swagger 等）は、このフォーム不要。有料 op に <code>x-payment-info</code> + <code>x-jp402</code> を足して、手順③ の <code>{ "openapi_url": … }</code> を PR するだけです。</p>
 
+  <div class="card" style="border-color:var(--accent);box-shadow:0 0 0 3px rgba(108,92,231,.08)">
+    <p><span class="step">⚡ 速い</span>エージェントで登録（2ステップ）</p>
+    <p class="howpr" style="padding-left:0;margin-top:0">自分のリポジトリを開いた Claude Code / Cursor などにプロンプトを貼るだけ。<b>openapi.json の生成・公開・402 検証</b>まで agent がやり、登録用の1行を出力します。残りは PR ボタン1つ。</p>
+
+    <p style="margin-top:16px"><span class="step">1</span>プロンプトをコピー → 自分の環境（coding agent）に貼る</p>
+    <pre id="prompt">このリポジトリの有料 API を jp402-registry（JPYC×x402 ディスカバリ）に登録して。
+
+1. 有料にすべき HTTP エンドポイントを検出。各 path・価格（JPYC 整数）・受取 payTo を確認する。
+   ★payTo は「このリソース専用の新規ウォレット」を使う（他用途と共用しているアドレスは使わない）。
+   私のウォレットは勝手に決めず必ず聞くこと。
+2. /openapi.json（OpenAPI 3.1・ドメイン直下。Next.js なら public/openapi.json）を生成/拡張し、
+   各有料 GET に付与：
+   - "x-payment-info": { "price": { "mode": "fixed", "currency": "JPYC", "amount": "&lt;価格&gt;" },
+       "protocols": [ { "x402": { "network": "eip155:137",
+       "asset": "0xe7c3d8c9a439fede00d2600032d5db0be71c3c29", "payTo": "&lt;payTo&gt;" } } ] }
+   - "responses" に "402"
+   - info.x-jp402 = { "currency": "JPYC" }（T番号があれば op に x-jp402.invoice.registrationNumber = T+13桁）
+3. deploy 後、ライブの当該エンドポイントが「同じ payTo で HTTP 402 を返す」ことを curl で検証する
+   （宣言＝runtime 一致。payTo が facilitator / API キー由来なら、そのキーが当該 payTo に紐づくことも確認）。
+
+制約: JPYC / Polygon のみ・リソース専用 payTo・最終真実は runtime 402。
+最後に、登録用の1行 { "openapi_url": "https://&lt;自ドメイン&gt;/openapi.json" } を出力して。
+（gh が使えるなら fork→PR まで作ってくれてもよい）</pre>
+    <button onclick="copy('prompt')">📋 プロンプトをコピー</button>
+
+    <p style="margin-top:18px"><span class="step">2</span>出力された entry を PR</p>
+    <pre id="entry2">{ "openapi_url": "https://YOUR_DOMAIN/openapi.json" }</pre>
+    <a class="btn" href="https://github.com/kakedashi3/jp402-registry/edit/main/registry.json" target="_blank" rel="noopener" onclick="copy('entry2')">📋 entry をコピーして GitHub を開く</a>
+    <p class="howpr">agent が出力した実ドメインの1行に置き換えて、<code>"entries": []</code> の角カッコ内に貼る → Commit → <b>Create a new branch &amp; PR</b>。CI が形式＋402 probe を自動検査（承認ゲート無し）。</p>
+  </div>
+
+  <p class="note" style="text-align:center;font-weight:700">— または、フォームで手動作成（3ステップ）↓ —</p>
+
   <div class="card">
     <p><span class="step">手順①</span>値を入力 → <code>openapi.json</code> を作る</p>
     <label class="req">サービス名 (publisher)</label>
