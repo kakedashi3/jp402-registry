@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32" role="img" aria-label="jp402">
+  <!-- favicon: 紫タイルに ◎ を白抜き + 黄芯。16px で潰れぬよう 1 環 + 芯に割り切り（jp402 と同一意匠） -->
+  <rect width="32" height="32" rx="7" fill="#6c5ce7"/>
+  <circle cx="16" cy="16" r="8.5" fill="none" stroke="#ffffff" stroke-width="3"/>
+  <circle cx="16" cy="16" r="3.6" fill="#ffe27a"/>
+</svg>
