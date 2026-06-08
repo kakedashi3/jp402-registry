@@ -113,17 +113,26 @@
 
   <div class="card" style="border-color:var(--accent);box-shadow:0 0 0 3px rgba(108,92,231,.08)">
     <p><span class="step">⚡ 速い</span>エージェントで登録（2ステップ）</p>
-    <p class="howpr" style="padding-left:0;margin-top:0">自分のリポジトリを開いた Claude Code / Cursor などにプロンプトを貼るだけ。<b>openapi.json の生成・公開・402 検証</b>まで agent がやり、登録用の1行を出力します。残りは PR ボタン1つ。</p>
+    <p class="howpr" style="padding-left:0;margin-top:0">自分のリポジトリを開いた Claude Code / Cursor などにプロンプトを貼るだけ。<b>openapi.json の生成案・402 検証</b>を agent が行い、登録用の1行を出力します（<b>編集・commit・deploy はあなたの承認後</b>に実行）。残りは PR ボタン1つ。</p>
 
     <p style="margin-top:16px"><span class="step">1</span>プロンプトをコピー → 自分の環境（coding agent）に貼る</p>
     <pre id="prompt">このリポジトリの有料 API を jp402-registry（JPYC×x402 ディスカバリ）に登録して。
 
-1. 有料にすべき HTTP エンドポイントを検出。各 path・価格（JPYC 整数）・受取 payTo を確認する。
+【まず守るルール（重要・例外なし）】
+- ファイルを作成・編集する前に、変更内容（diff）を必ず提示して私の承認を得ること。承認なしに書き込まない。
+- commit / push / deploy は、私が明示的に指示するまで実行しない（自動でやらない）。
+- 触ってよいのは openapi.json（とその公開に最小限必要な設定）だけ。他のソースは変更しない。
+- 私のウォレット（payTo）は勝手に決めず必ず聞くこと。
+- 不明点や破壊的な操作（既存ファイル上書き等）が必要になったら、実行せずまず私に確認する。
+
+【手順】
+1. 有料にすべき HTTP エンドポイントを検出し、各 path・価格（JPYC 整数）・受取 payTo を
+   「提案」として私に提示し、確認を取る（この段階では何も書き込まない）。
    ★payTo は「このリソース専用の新規ウォレット」を使う（他用途と共用しているアドレスは使わない）。
-   私のウォレットは勝手に決めず必ず聞くこと。
-   有料エンドポイントが複数ある場合は op ごとに payTo を設定できる。各エンドポイントの売上を
-   別々に把握したいなら op ごとに専用 payTo を分ける（共有でも動くが signals は合算になる）。
-2. /openapi.json（OpenAPI 3.1・ドメイン直下。Next.js なら public/openapi.json）を生成/拡張し、
+   有料エンドポイントが複数ある場合は op ごとに payTo を分けられる（共有でも動くが signals は合算）。
+2. /openapi.json（OpenAPI 3.1・ドメイン直下。Next.js なら public/openapi.json）の変更案を作り、
+   diff を提示して承認を得てから書き込む。
+   ★既存の openapi.json がある場合は上書きせず、必要な追加分だけを足す案を見せること。
    各有料 GET に付与：
    - "summary": サービス概要を1行で（jp402 の一覧・詳細にそのまま表示される。必須）
    - パラメータが要る課金 op は "parameters" に required:true で宣言（例 id）。
@@ -133,12 +142,14 @@
        "asset": "0xe7c3d8c9a439fede00d2600032d5db0be71c3c29", "payTo": "&lt;payTo&gt;" } } ] }
    - "responses" に "402"
    - info.x-jp402 = { "currency": "JPYC" }（T番号があれば op に x-jp402.invoice.registrationNumber = T+13桁）
-3. deploy 後、ライブの当該エンドポイントが「同じ payTo で HTTP 402 を返す」ことを curl で検証する
-   （宣言＝runtime 一致。payTo が facilitator / API キー由来なら、そのキーが当該 payTo に紐づくことも確認）。
+3. 公開（deploy）は私が行う。deploy が必要なら私に依頼すること（勝手に deploy しない）。
+   私が deploy したと伝えたら、ライブの当該エンドポイントが「同じ payTo で HTTP 402 を返す」ことを
+   curl で検証する（宣言＝runtime 一致。payTo が facilitator / API キー由来なら、そのキーが
+   当該 payTo に紐づくことも確認）。
 
 制約: JPYC / Polygon のみ・リソース専用 payTo・最終真実は runtime 402。
 最後に、登録用の1行 { "openapi_url": "https://&lt;自ドメイン&gt;/openapi.json" } を出力して。
-（gh が使えるなら fork→PR まで作ってくれてもよい）</pre>
+（PR まで任せる場合も、内容を提示して私の承認を得てから gh で fork→PR すること。無断で PR しない）</pre>
     <button onclick="copy('prompt')">📋 プロンプトをコピー</button>
 
     <p style="margin-top:18px"><span class="step">2</span>出力された entry を PR</p>
